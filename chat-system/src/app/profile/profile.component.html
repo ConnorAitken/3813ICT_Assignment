@@ -1,0 +1,31 @@
+<!DOCTYPE html>
+<html>
+  <title>ACCOUNT</title>
+  <head>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <script src="account_script.js"></script>
+  </head>
+  <body>
+    <form id="accountform">
+      <h2>EDIT ACCOUNT DETAILS</h2>
+      <div class="icon">
+        <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">    
+      </div>
+      <div class="formcontainer">
+      <div class="container">
+        <label for="fname"><strong>Name</strong></label>
+        <input class="value" id="fname" name="fname" value={{user.uname}} [(ngModel)]="user.uname">
+        <label for="bdate"><strong>Date of Birth</strong></label>
+        <input class="value" id="bdate" name="bdate" value={{user.bdate}} [(ngModel)]="user.bdate">
+        <label for="age"><strong>Age</strong></label>
+        <input class="value" id="age" name="age" value={{user.age}} [(ngModel)]="user.age">
+        <label for="mail"><strong>E-mail</strong></label>
+        <input type="text" id="mail" name="mail" value={{user.email}} [(ngModel)]="user.email">
+      </div>
+      <button type="submit" (click)="return()"><strong>RETURN</strong></button>
+      <button type="submit" (click)="save()"><strong>SAVE</strong></button>
+      <div id="test"></div>

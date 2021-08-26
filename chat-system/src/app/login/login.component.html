@@ -1,0 +1,33 @@
+<head>
+  <link href="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/css/bootstrap.min.css" rel="stylesheet" id="bootstrap-css">
+  <script src="//maxcdn.bootstrapcdn.com/bootstrap/4.0.0/js/bootstrap.min.js"></script>
+  <script src="//cdnjs.cloudflare.com/ajax/libs/jquery/3.2.1/jquery.min.js"></script>
+  <!------ Include the above in your HEAD tag ---------->
+</head>
+<body>
+  <div class="wrapper fadeInDown">
+    <div id="formContent">
+      <!-- Tabs Titles -->
+
+      <!-- Icon -->
+      <div class="fadeIn first">
+        <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">
+      </div>
+
+      <!-- Login Form -->
+      <form>
+        <input type="text" id="email" class="fadeIn second" name="email" placeholder="email" required="required" [(ngModel)]="customer.email">
+        <input type="text" id="upwd" class="fadeIn second" name="upwd" placeholder="password" required="required" [(ngModel)]="customer.upwd">
+        <input type="submit" class="fadeIn second" value="Log In" (click)="loginfunc()">
+      </form>
+
+      <!-- Remind Passowrd -->
+      <div id="formFooter">
+        <a class="underlineHover" href="#">Forgot Password?</a>
+      </div>
+
+    </div>
+  </div>
+
+  <div id="errormsg" class="hidemessage" [ngClass]="toggleClass ? 'hidemessage' : 'showmessage'"><h3>User credentials do not match!!</h3></div>
+</body>

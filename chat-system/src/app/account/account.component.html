@@ -1,0 +1,30 @@
+<head>
+  <script
+  src="https://code.jquery.com/jquery-3.6.0.js"
+  integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+  <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+  <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+  <script src="account_script.js"></script>
+</head>
+<body>
+  <form id="accountform">
+    <h2>ACCOUNT DETAILS</h2>
+    <div class="icon">
+      <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">    
+    </div>
+    <div class="formcontainer">
+      <div class="container">
+        <label for="fname"><strong>Name</strong></label>
+        <div class="value" id="fname">{{uname}}</div>
+        <label for="bdate"><strong>Date of Birth</strong></label>
+        <div class="value" id="bdate">{{bdate}}</div>
+        <label for="age"><strong>Age</strong></label>
+        <div class="value" id="age">{{age}}</div>
+        <label for="mail"><strong>E-mail</strong></label>
+        <div class="value" id="mail">{{email}}</div>
+      </div>
+      <button type="submit" (click)="return()"><strong>RETURN</strong></button>
+      <button type="submit" (click)="edit()"><strong>EDIT</strong></button>
+    </div>
+  </form>
+</body>

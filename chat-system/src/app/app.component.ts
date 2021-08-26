@@ -1,4 +1,5 @@
-import { Component } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
+import { Router } from '@angular/router'; 
 
 @Component({
   selector: 'app-root',
@@ -7,4 +8,16 @@ import { Component } from '@angular/core';
 })
 export class AppComponent {
   title = 'chat-system';
+
+  constructor(private router:Router) { }
+
+  ngOnInit(){
+
+
+  }
+
+  logOut() {
+    sessionStorage.clear();
+    this.router.navigateByUrl('/login');
+  }
 }
