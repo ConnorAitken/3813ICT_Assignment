@@ -5,21 +5,21 @@ module.exports = function(req,res){
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var customer = new User.User('', '', '', '', req.body.email, req.body.upwd);
-    fs.readFile('./routes/users.json', 'utf8', function(err, data) {
+    var customer = new User.User('', req.body.uname, '', '');
+    fs.readFile('./data/users.json', 'utf8', function(err, data) {
         if (err) throw err;
         let usersArray = JSON.parse(data);
-        // console.log(usersArray[0]);
+        console.log(customer);
         let i = usersArray.findIndex(user =>
-            ((user.email == customer.email) && (user.upwd == customer.upwd)));
+            (user.uname == customer.uname));
         if (i == -1) {
             customer.valid = false;
-            // console.log(customer);
+            console.log(customer);
             res.send(customer);
         }
         else {
             usersArray[i].valid = true;
-            // console.log(usersArray[i]);
+            console.log(usersArray[i]);
             res.send(usersArray[i]);
         }
     });

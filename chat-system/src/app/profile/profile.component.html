@@ -17,14 +17,12 @@
       </div>
       <div class="formcontainer">
       <div class="container">
-        <label for="fname"><strong>Name</strong></label>
-        <input class="value" id="fname" name="fname" value={{user.uname}} [(ngModel)]="user.uname">
-        <label for="bdate"><strong>Date of Birth</strong></label>
-        <input class="value" id="bdate" name="bdate" value={{user.bdate}} [(ngModel)]="user.bdate">
-        <label for="age"><strong>Age</strong></label>
-        <input class="value" id="age" name="age" value={{user.age}} [(ngModel)]="user.age">
+        <label for="uname"><strong>Username</strong></label>
+        <input class="value" id="uname" name="uname" value={{user.uname}} [(ngModel)]="user.uname">
         <label for="mail"><strong>E-mail</strong></label>
         <input type="text" id="mail" name="mail" value={{user.email}} [(ngModel)]="user.email">
+        <label for="role"><strong>Role</strong></label>
+        <input type="text" id="role" name="role" value={{user.role}} [(ngModel)]="user.role">
       </div>
       <button type="submit" (click)="return()"><strong>RETURN</strong></button>
       <button type="submit" (click)="save()"><strong>SAVE</strong></button>

@@ -17,10 +17,8 @@ export class ProfileComponent implements OnInit {
   user = {
     id:sessionStorage.getItem('id'),
     uname:sessionStorage.getItem('uname'),
-    bdate:sessionStorage.getItem('bdate'),
-    age:sessionStorage.getItem('age'),
     email:sessionStorage.getItem('email'),
-    upwd:"123",
+    role:sessionStorage.getItem('role'),
     valid:false
   }
 
@@ -35,7 +33,7 @@ export class ProfileComponent implements OnInit {
   }
 
   return() {
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/account');
   }
 
   save() {
@@ -43,9 +41,8 @@ export class ProfileComponent implements OnInit {
       if (data.saved) {
         sessionStorage.setItem('id', this.user.id!);
         sessionStorage.setItem('uname', this.user.uname!);
-        sessionStorage.setItem('bdate', this.user.bdate!);
-        sessionStorage.setItem('age', this.user.age!);
         sessionStorage.setItem('email', this.user.email!);
+        sessionStorage.setItem('role', this.user.role!);
         this.router.navigateByUrl('/account');
       }
       else {

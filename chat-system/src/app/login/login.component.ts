@@ -14,7 +14,7 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 
 export class LoginComponent implements OnInit {
-    customer = {email: '', upwd: '', valid: false};
+    customer = {uname: '', valid: false};
     toggleClass: boolean = true;
     constructor( private router:Router, private httpClient:HttpClient ) { }
 
@@ -25,16 +25,15 @@ export class LoginComponent implements OnInit {
             if (data.valid) {
                 sessionStorage.setItem('id', data.id);
                 sessionStorage.setItem('uname', data.uname);
-                sessionStorage.setItem('bdate', data.bdate);
-                sessionStorage.setItem('age', data.age);
                 sessionStorage.setItem('email', data.email);
+                sessionStorage.setItem('role', data.role);
                 this.toggleClass = true;
                 this.router.navigateByUrl('/account');
             }
             else {
                 this.toggleClass = false;
-                this.customer.email = "";
-                this.customer.upwd = "";
+                this.customer.uname = "";
+                this.customer.valid = false;
             }
         });
     }

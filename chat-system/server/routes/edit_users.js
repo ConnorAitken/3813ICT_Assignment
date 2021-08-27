@@ -6,7 +6,7 @@ module.exports = function(req,res){
         return res.sendStatus(400);
     }
     var customer = new User.User(req.body.id, req.body.uname, req.body.bdate, req.body.age, req.body.email, '');
-    fs.readFile('./routes/users.json', 'utf8', function(err, data) {
+    fs.readFile('../data/users.json', 'utf8', function(err, data) {
         if (err) {
             res.send({"saved": false});
             throw err;

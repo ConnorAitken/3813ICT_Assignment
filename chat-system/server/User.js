@@ -2,18 +2,14 @@ module.exports = {
     User: class {
         id = "";
         uname = "";
-        bdate = "";
-        age = "";
         email = "";
-        upwd = "";
+        role = "";
         valid = false;
-        constructor(id, uname, bdate, age, email, upwd) {
+        constructor(id, uname, email, role) {
             this.id = id;
             this.uname = uname;
-            this.bdate = bdate;
-            this.age = age;
             this.email = email;
-            this. upwd = upwd;
+            this. role = role;
         }
     }
 }

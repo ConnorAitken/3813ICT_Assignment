@@ -11,19 +11,15 @@ import { Router } from '@angular/router';
 export class AccountComponent implements OnInit {
 
     uname=sessionStorage.getItem('uname');
-    bdate=sessionStorage.getItem('bdate');
-    age=sessionStorage.getItem('age');
     email=sessionStorage.getItem('email');
-    upwd=sessionStorage.getItem('upwd');
+    role=sessionStorage.getItem('role');
     constructor( private route:ActivatedRoute, private router:Router ) { }
 
     ngOnInit() {
         if (this.uname == null) {
             this.uname="John";
-            this.bdate="01/01/1999";
-            this.age="22";
             this.email="JohnDoe@gmail.com";
-            this.upwd="Password"
+            this.role="User";
         }
     }
 
