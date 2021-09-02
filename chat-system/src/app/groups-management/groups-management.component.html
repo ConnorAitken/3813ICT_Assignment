@@ -1,0 +1,59 @@
+<html>
+  <title>ACCOUNT</title>
+  <head>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <script src="account_script.js"></script>
+  </head>
+  <body>
+    <div class="formcontainer">
+        <form id="accountform">
+        <h2>Groups Management Page</h2>
+        <div class="icon">
+            <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">    
+        </div>
+        <div class="container">
+            <div class="row">
+            <label style="font-size:18px;"><strong>Select Group:    </strong></label>
+            <select class="form-select form-select-sm" style="width: 28%;" aria-label=".form-select-sm groups" id="group_select">
+                <option selected>Group List</option>
+            </select>
+             <button type="submit" (click)="choose()" style="float: right;"><strong>CHOOSE</strong></button>
+            </div>
+            <hr>
+            <div class="row">
+                <label><strong>Create New Channel</strong></label><br>
+                <button type="submit" (click)="create_channel()" style="float: right"><strong>CREATE CHANNEL</strong></button>
+                <div style="overflow: hidden; padding-right: .5em;">
+                    <input type="text" id="channelName" name="channelName" style="width: 100%;" placeholder="Channel Name" required="required" [(ngModel)]="data.channelName">
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <label ><strong>Remove Channel</strong></label><br>
+                <button type="submit" (click)="remove_channel()" style="float: right"><strong>REMOVE CHANNEL</strong></button>
+                <div style="overflow: hidden; padding-right: .5em;">
+                    <select class="form-select form-select-lg mb-3" style="width: 100%;" aria-label=".form-select-sm groups" id="channel_select">
+                        <option selected>Channel List</option>
+                    </select>
+                </div>
+            </div>
+            <hr>
+            <div class="row">
+                <label><strong>User Management</strong></label><br>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-sm groups" id="channel_select_users">
+                    <option selected>Channel List</option>
+                </select>
+                <input type="text" id="userName" name="userName" style="float: right" placeholder="Username" required="required" [(ngModel)]="data.userName">
+                <button type="submit" (click)="ivite_user()" style="width: 33%;"><strong>INVITE USER</strong></button>
+                <button type="submit" (click)="remove_user()" style="width: 33%;"><strong>REMOVE USER</strong></button>
+                <button type="submit" (click)="upgrade_user()" style="width: 33%;"><strong>UPGRADE TO ASSISTANT</strong></button>
+            </div>
+            <hr>
+        </div>
+        <button type="submit" (click)="return()"><strong>RETURN</strong></button>
+      <div id="test"></div>
+

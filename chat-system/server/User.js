@@ -9,7 +9,7 @@ module.exports = {
             this.id = id;
             this.uname = uname;
             this.email = email;
-            this. role = role;
+            this.role = role;
         }
     }
 }

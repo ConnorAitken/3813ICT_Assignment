@@ -26,3 +26,4 @@ var server = http.listen(3000, function() {
 app.post('/api/auth', require('./routes/login.js'));
 app.post('/edit', require('./routes/edit_users.js'));
 app.post('/groups', require('./routes/load_groups.js'));
+app.post('/create_group', require('./routes/create_group.js'));
