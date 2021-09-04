@@ -27,3 +27,8 @@ app.post('/api/auth', require('./routes/login.js'));
 app.post('/edit', require('./routes/edit_users.js'));
 app.post('/groups', require('./routes/load_groups.js'));
 app.post('/create_group', require('./routes/create_group.js'));
+app.post('/remove_group', require('./routes/remove_group.js'));
+app.post('/group_info', require('./routes/load_group_info.js'));
+app.post('/create_room', require('./routes/create_room.js'));
+app.post('/remove_room', require('./routes/remove_room.js'));
+app.post('/invite_users', require('./routes/invite_users.js'));

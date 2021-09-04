@@ -18,17 +18,17 @@
         <div class="container">
             <div class="row">
             <label style="font-size:18px;"><strong>Select Group:    </strong></label>
-            <select class="form-select form-select-sm" style="width: 28%;" aria-label=".form-select-sm groups" id="group_select">
-                <option selected>Group List</option>
+            <select class="form-select form-select-lg mb-3" style="width: 28%;" aria-label=".form-select-lg groups" name="group_select" id="group_select" [(ngModel)]="selectedGroup">
+              <option *ngFor="let item of groups" [ngValue]="item">{{item.name}}</option>
             </select>
-             <button type="submit" (click)="choose()" style="float: right;"><strong>CHOOSE</strong></button>
+            <button type="submit" (click)="choose()" style="float: right; width: 40%;"><strong>CHOOSE</strong></button>
             </div>
             <hr>
             <div class="row">
                 <label><strong>Create New Channel</strong></label><br>
                 <button type="submit" (click)="create_channel()" style="float: right"><strong>CREATE CHANNEL</strong></button>
                 <div style="overflow: hidden; padding-right: .5em;">
-                    <input type="text" id="channelName" name="channelName" style="width: 100%;" placeholder="Channel Name" required="required" [(ngModel)]="data.channelName">
+                    <input type="text" id="channelName" name="channelName" style="width: 100%;" placeholder="Channel Name" required="required" [(ngModel)]="data.roomName">
                 </div>
             </div>
             <hr>
@@ -36,21 +36,26 @@
                 <label ><strong>Remove Channel</strong></label><br>
                 <button type="submit" (click)="remove_channel()" style="float: right"><strong>REMOVE CHANNEL</strong></button>
                 <div style="overflow: hidden; padding-right: .5em;">
-                    <select class="form-select form-select-lg mb-3" style="width: 100%;" aria-label=".form-select-sm groups" id="channel_select">
-                        <option selected>Channel List</option>
+                    <select class="form-select form-select-lg mb-3" style="width: 100%;" aria-label=".form-select-lg groups" name="channel_select" id="channel_select" [(ngModel)]="selectedRooms">
+                        <option *ngFor="let item of rooms" [ngValue]="item">{{item.name}}</option>
                     </select>
                 </div>
             </div>
             <hr>
             <div class="row">
-                <label><strong>User Management</strong></label><br>
-                <select class="form-select form-select-lg mb-3" aria-label=".form-select-sm groups" id="channel_select_users">
-                    <option selected>Channel List</option>
+                <label><strong>Invite or Remove User</strong></label><br>
+                <select class="form-select form-select-lg mb-3" aria-label=".form-select-lg groups" name="channel_select_users" id="channel_select_users" [(ngModel)]="selectedRoomsUsers">
+                    <option *ngFor="let item of rooms" [ngValue]="item">{{item.name}}</option>
                 </select>
                 <input type="text" id="userName" name="userName" style="float: right" placeholder="Username" required="required" [(ngModel)]="data.userName">
-                <button type="submit" (click)="ivite_user()" style="width: 33%;"><strong>INVITE USER</strong></button>
-                <button type="submit" (click)="remove_user()" style="width: 33%;"><strong>REMOVE USER</strong></button>
-                <button type="submit" (click)="upgrade_user()" style="width: 33%;"><strong>UPGRADE TO ASSISTANT</strong></button>
+                <button type="submit" (click)="ivite_user()"><strong>INVITE USER</strong></button>
+                <button type="submit" style="float: right;" (click)="remove_user()"><strong>REMOVE USER</strong></button>
+            </div>
+            <hr>
+            <div class="row">
+                <label><strong>Upgrade User To Assistant</strong></label><br>
+                <input type="text" id="userNameAss" name="userNameAss" style="width: 48%;" placeholder="Username" required="required" [(ngModel)]="data.userName">
+                <button type="submit" (click)="upgrade_user()" style="float: right; width: 48%;"><strong>UPGRADE</strong></button>
             </div>
             <hr>
         </div>

@@ -15,12 +15,26 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 export class GroupsManagementComponent implements OnInit {
   data = {
-    id:"",
-    userName:"",
-    channelName:"",
-    role:"",
-    valid:false
+    groupID:-1,
+    roomID:-1,
+    roomName:"",
+    userName:""
   }
+
+  // room = {
+  //   groupID:-1,
+  //   roomID:-1,
+  //   name:""
+  // }
+
+  groups: any;
+  rooms: any;
+
+  selectedGroup: any;
+  selectedRooms: any;
+  selectedRoomsUsers: any;
+
+  currentGroup: any;
 
   constructor(private router:Router, private httpClient:HttpClient) {
     if (sessionStorage.getItem('id') == null) {
@@ -31,13 +45,14 @@ export class GroupsManagementComponent implements OnInit {
 
   ngOnInit(): void {
     this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
+      this.groups = data;
       // alert(data[1]);
       // console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        var completelist = document.getElementById("group_select")!;
-        completelist.innerHTML += "<option value='" + (i+1) + "'>" + data[i].name + "</option>";
-      } 
+      // for (let i = 0; i < data.length; i++) {
+      //   console.log(data[i]);
+      //   var completelist = document.getElementById("group_select")!;
+      //   completelist.innerHTML += "<option value='" + (i+1) + "'>" + data[i].name + "</option>";
+      // } 
     });
   }
 
@@ -46,19 +61,65 @@ export class GroupsManagementComponent implements OnInit {
   }
   
   choose() {
-
+    let i = this.groups.findIndex((group:any) =>
+      (group.name == this.selectedGroup.name));
+    this.currentGroup = this.groups[i];
+    this.httpClient.post(BACKEND_URl + '/group_info', this.currentGroup, httpOptions).subscribe((data:any) => {
+      this.rooms = data;
+      alert("Rooms Loaded");
+      // if (data.removed) {
+      //   window.location.reload();
+      //   alert("Removed!!");
+      // }
+      // else {
+      //   window.location.reload();
+      //   alert("Error Removing!!");
+      // }
+    });
   }
 
   create_channel() {
-    
+    this.data.groupID = this.currentGroup.id;
+    this.httpClient.post(BACKEND_URl + '/create_room', this.data, httpOptions).subscribe((data:any) => {
+      if (data.saved) {
+        window.location.reload();
+        alert("Saved!!");
+      }
+      else {
+        window.location.reload();
+        alert("Error Saving!!");
+      }
+    });
   }
 
   remove_channel() {
-    
+    this.data.groupID = this.currentGroup.id;
+    this.data.roomName = this.selectedRooms.name;
+    this.httpClient.post(BACKEND_URl + '/remove_room', this.data, httpOptions).subscribe((data:any) => {
+      if (data.saved) {
+        window.location.reload();
+        alert("Saved!!");
+      }
+      else {
+        window.location.reload();
+        alert("Error Saving!!");
+      }
+    });
   }
 
   ivite_user() {
-    
+    this.data.groupID = this.currentGroup.id;
+    this.data.roomName = this.selectedRooms.name;
+    this.httpClient.post(BACKEND_URl + '/remove_room', this.data, httpOptions).subscribe((data:any) => {
+      if (data.saved) {
+        window.location.reload();
+        alert("Saved!!");
+      }
+      else {
+        window.location.reload();
+        alert("Error Saving!!");
+      }
+    });
   }
 
   remove_user() {

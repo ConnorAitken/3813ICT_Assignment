@@ -15,7 +15,7 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 export class GroupAdminComponent implements OnInit {
   data = {
-    id:"",
+    id:-1,
     channelName:"",
     groupName:"",
     valid:false
@@ -60,18 +60,29 @@ export class GroupAdminComponent implements OnInit {
         // sessionStorage.setItem('email', this.user.email!);
         // sessionStorage.setItem('role', this.user.role!);
         // this.router.navigateByUrl('/account');
+        window.location.reload();
         alert("Saved!!");
       }
       else {
+        window.location.reload();
         alert("Error Saving!!");
       }
     });
   }
 
   remove_group() {
-    alert(this.selectedGroup.name);
-    console.log(this.selectedGroup.name);
-    window.location.reload();
+    this.data.groupName = this.selectedGroup.name;
+    this.httpClient.post(BACKEND_URl + '/remove_group', this.data, httpOptions).subscribe((data:any) => {
+      if (data.removed) {
+        window.location.reload();
+        alert("Removed!!");
+      }
+      else {
+        window.location.reload();
+        alert("Error Removing!!");
+      }
+    });
+    // window.location.reload();
   }
 
   group_management() {

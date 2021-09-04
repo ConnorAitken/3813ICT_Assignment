@@ -1,1 +1,1 @@
-[{"groupdID":"0", "roomID":"0", "name":"room1","numOfUsers":"2"},{"groupdID":"1", "roomID":"0", "name":"room1","numOfUsers":"3"},{"groupdID":"1", "roomID":"1", "name":"room2","numOfUsers":"2"}]
+[{"groupID":0,"roomID":"0","name":"room1","numOfUsers":"2"},{"groupID":1,"roomID":"0","name":"room1","numOfUsers":"3"},{"groupID":1,"roomID":"1","name":"room2","numOfUsers":"2"},{"groupID":2,"roomID":1,"name":"room2","numOfUsers":0},{"groupID":2,"roomID":2,"name":"room3","numOfUsers":0}]
