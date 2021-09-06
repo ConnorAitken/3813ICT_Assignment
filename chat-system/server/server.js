@@ -31,4 +31,6 @@ app.post('/remove_group', require('./routes/remove_group.js'));
 app.post('/group_info', require('./routes/load_group_info.js'));
 app.post('/create_room', require('./routes/create_room.js'));
 app.post('/remove_room', require('./routes/remove_room.js'));
-app.post('/invite_users', require('./routes/invite_users.js'));
+app.post('/invite_user', require('./routes/invite_users.js'));
+app.post('/remove_user', require('./routes/remove_users.js'));
+app.post('/upgrade_to_ass', require('./routes/upgrade_to_ass.js'));

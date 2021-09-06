@@ -21,11 +21,7 @@ export class GroupsManagementComponent implements OnInit {
     userName:""
   }
 
-  // room = {
-  //   groupID:-1,
-  //   roomID:-1,
-  //   name:""
-  // }
+  newAss = "";
 
   groups: any;
   rooms: any;
@@ -82,11 +78,11 @@ export class GroupsManagementComponent implements OnInit {
     this.data.groupID = this.currentGroup.id;
     this.httpClient.post(BACKEND_URl + '/create_room', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
-        window.location.reload();
+        // window.location.reload();
         alert("Saved!!");
       }
       else {
-        window.location.reload();
+        // window.location.reload();
         alert("Error Saving!!");
       }
     });
@@ -97,11 +93,11 @@ export class GroupsManagementComponent implements OnInit {
     this.data.roomName = this.selectedRooms.name;
     this.httpClient.post(BACKEND_URl + '/remove_room', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
-        window.location.reload();
+        // window.location.reload();
         alert("Saved!!");
       }
       else {
-        window.location.reload();
+        // window.location.reload();
         alert("Error Saving!!");
       }
     });
@@ -109,25 +105,47 @@ export class GroupsManagementComponent implements OnInit {
 
   ivite_user() {
     this.data.groupID = this.currentGroup.id;
-    this.data.roomName = this.selectedRooms.name;
-    this.httpClient.post(BACKEND_URl + '/remove_room', this.data, httpOptions).subscribe((data:any) => {
-      if (data.saved) {
-        window.location.reload();
-        alert("Saved!!");
+    this.data.roomName = this.selectedRoomsUsers.name;
+    this.httpClient.post(BACKEND_URl + '/invite_user', this.data, httpOptions).subscribe((data:any) => {
+      if (data.success) {
+        // window.location.reload();
+        alert("Invited!!");
       }
       else {
-        window.location.reload();
-        alert("Error Saving!!");
+        if (data.exists) alert("User Already In Channel!!");
+        else alert("Error Inviting!!");
+        
       }
     });
   }
 
   remove_user() {
-    
+    this.data.groupID = this.currentGroup.id;
+    this.data.roomName = this.selectedRoomsUsers.name;
+    this.httpClient.post(BACKEND_URl + '/remove_user', this.data, httpOptions).subscribe((data:any) => {
+      if (data.success) {
+        // window.location.reload();
+        alert("Removed!!");
+      }
+      else {
+        if (!data.exists) alert("User Not Found In Channel!!");
+        else alert("Error Removing!!");
+      }
+    });
   }
 
   upgrade_user() {
-    
+    this.httpClient.post(BACKEND_URl + '/upgrade_to_ass', {"uname":this.newAss}, httpOptions).subscribe((data:any) => {
+      if (data.success) {
+        // window.location.reload();
+        alert("Upgraded!!");
+      }
+      else {
+        if (!data.exists) alert("User Not Found In Channel!!");
+        else if (!data.User) alert("User Already GroupAssis Or Above!!");
+        else alert("Error Upgrading!!");
+      }
+    });
   }
 
 
