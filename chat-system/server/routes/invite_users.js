@@ -51,7 +51,7 @@ module.exports = function(req,res){
                     if (x == -1) {
                         console.log("No User Found");
                         var id = users[users.length-1].id + 1;
-                        var user = new User.User(id, req.body.userName, '', 'User');
+                        var user = new User.User(id, req.body.userName, '', 'stdUser');
                         users.push(user);
                         fs.writeFile('./data/users.json', JSON.stringify(users), 'utf-8', function(err) {
                             if (err) {

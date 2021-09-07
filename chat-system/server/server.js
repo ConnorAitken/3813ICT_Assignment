@@ -24,7 +24,6 @@ var server = http.listen(3000, function() {
 
 // Routing
 app.post('/api/auth', require('./routes/login.js'));
-app.post('/edit', require('./routes/edit_users.js'));
 app.post('/groups', require('./routes/load_groups.js'));
 app.post('/create_group', require('./routes/create_group.js'));
 app.post('/remove_group', require('./routes/remove_group.js'));
@@ -34,3 +33,7 @@ app.post('/remove_room', require('./routes/remove_room.js'));
 app.post('/invite_user', require('./routes/invite_users.js'));
 app.post('/remove_user', require('./routes/remove_users.js'));
 app.post('/upgrade_to_ass', require('./routes/upgrade_to_ass.js'));
+app.post('/create_user', require('./routes/create_user.js'));
+app.post('/upgrade_user', require('./routes/upgrade_user.js'));
+app.post('/load_group_users', require('./routes/load_group_users.js'));
+app.post('/load_temp', require('./routes/load_temp.js'));

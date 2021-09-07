@@ -12,26 +12,17 @@
                     <i class="fa fa-comments-o"></i>
                     <h3>Color Chat</h3>
                 </div>
-                <ul class="chat-list" id="group-list">
-                    <li class="">
-                        <a class="lobby" href="#lobby.html">
-                            <h4>
-                                <i class="fa fa-list"></i>
-                                Lobby
-                            </h4>
+                <ul class="chat-list">
+                    <li *ngFor="let group of groups" [ngClass]="{'selected':true}" (click)="onSelect(group)">
+                        <a>
+                            <i class="fa fa-rocket"></i>
+                            <span>{{group.name}}</span> 
                         </a>
                     </li>
                     <li>
                         <a href="#chat_room.html">
                             <i class="fa fa-rocket"></i>
                             <span>Marketing</span>
-                            <i class="fa fa-times pull-right"></i>
-                        </a>
-                    </li>
-                    <li class="active">
-                        <a href="#chat_room.html">
-                            <i class="fa fa-rocket"></i>
-                            <span>Water Cooler</span>
                             <i class="fa fa-times pull-right"></i>
                         </a>
                     </li>
@@ -137,76 +128,6 @@
                 </footer>
             </aside>
             <!-- end:aside tengah chat room -->
-
-            <!-- start:aside kanan chat room -->
-            <aside class="kanan-side">
-                <div class="user-head">
-                    <a href="##" class="chat-tools btn-success"><i class="fa fa-cog"></i> </a>
-                    <a href="##" class="chat-tools btn-key"><i class="fa fa-key"></i> </a>
-                </div>
-                <div class="invite-row">
-                    <h4 class="pull-left">People</h4>
-                </div>
-                <ul class="chat-available-user">
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-success"></i>
-                            Jonathan Smith
-                            <span class="text-muted">3h:22m</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-success"></i>
-                            Jhone Due
-                            <span class="text-muted">1h:2m</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-success"></i>
-                            Cendy Andrianto
-                            <span class="text-muted">2h:32m</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-danger"></i>
-                            Surya Nug
-                            <span class="text-muted">3h:22m</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-warning"></i>
-                            Monke Lutfy
-                            <span class="text-muted">1h:12m</span>
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-muted"></i>
-                            Steve Jobs
-                            <!--<span class="text-muted">3h:22m</span>-->
-                        </a>
-                    </li>
-                    <li>
-                        <a href="#chat-room.html">
-                            <i class="fa fa-circle text-muted"></i>
-                            Jonathan Smith
-                            <!--<span class="text-muted">3h:22m</span>-->
-                        </a>
-                    </li>
-                </ul>
-                <footer>
-                    <a href="##" class="guest-on">
-                        <i class="fa fa-check"></i>
-                        Guest Access On
-                    </a>
-                </footer>
-            </aside>
-            <!-- end:aside kanan chat room -->
-
             </div>
         </div>
         <!-- end:chat room -->

@@ -1,0 +1,53 @@
+<html>
+  <title>ACCOUNT</title>
+  <head>
+    <script
+    src="https://code.jquery.com/jquery-3.6.0.js"
+    integrity="sha256-H+K7U5CnXl1h5ywQfKtSj8PCmoN9aaq30gDh27Xc0jk=" crossorigin="anonymous"></script>
+    <link href="https://fonts.googleapis.com/css?family=Roboto:300,400,500,700" rel="stylesheet">
+    <link rel="stylesheet" href="https://use.fontawesome.com/releases/v5.4.1/css/all.css" integrity="sha384-5sAR7xN1Nv6T6+dT2mhtzEpVJvfS3NScPQTrOxhwjIuvcA67KV2R5Jz6kr4abQsz" crossorigin="anonymous">
+    <script src="account_script.js"></script>
+  </head>
+  <body>
+    <div class="formcontainer">
+    <form id="accountform">
+      <h2>Super Admin Page</h2>
+      <div class="icon">
+        <img src="https://img.icons8.com/bubbles/100/000000/user.png" class="img-radius" alt="User-Profile-Image">    
+      </div>
+      <div class="container">
+        <div class="row">
+            <label><strong>Create New User</strong></label><br>
+            <input type="text" id="newUserName" name="newUserName" style="width: 25%;" placeholder="Username" required="required" [(ngModel)]="newUserName">
+            <input type="text" id="newEmail" name="newEmail" style="width: 48%; margin: 5px;" placeholder="Email@gmail.com" required="required" [(ngModel)]="newEmail">
+            <select style="width: 25%;" name="user_roles" id="user_roles" [(ngModel)]="selectedRole">
+                <option value="Role">Role</option>
+                <option value="SuperAdmin">Super-Admin</option>
+                <option value="GroupAdmin">Group-Admin</option>
+                <option value="GroupAssis">Group-Assis</option>
+                <option value="stdUser">stdUser</option>
+            </select><br>
+            <button type="submit" style="margin-left:25%; margin-right:25%;" (click)="create_user()"><strong>CREATE USER</strong></button>
+        </div>
+        <hr>
+        <div class="row">
+            <label><strong>Upgrade User's Role</strong></label><br>
+            <input type="text" id="upUserName" name="upUserName" style="width: 35%;" placeholder="Username" required="required" [(ngModel)]="upUserName">
+            <select style="width: 25%; margin: 5px;" name="user_roles" id="user_roles" (change)="test()" [(ngModel)]="selectedUpgradedRole">
+                <option value="Role">Role</option>
+                <option value="SuperAdmin">Super-Admin</option>
+                <option value="GroupAdmin">Group-Admin</option>
+            </select>
+            <button type="submit" (click)="upgrade_user()" style="width: 35%;"><strong>UPGRADE</strong></button>
+        </div>
+        <hr>
+        <div class="row">
+          <label for="mail"><strong>Groups Admin Page</strong></label><br>
+          <button type="submit" (click)="group_admin()" style="width: 100%;"><strong>GROUPS ADMIN</strong></button>
+        </div>
+        <hr>
+      </div>
+      <button type="submit" (click)="return()"><strong>RETURN</strong></button>
+      <div id="test"></div>
+
+

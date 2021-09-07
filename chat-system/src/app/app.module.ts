@@ -11,6 +11,8 @@ import { ProfileComponent } from './profile/profile.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupAdminComponent } from './group-admin/group-admin.component';
 import { GroupsManagementComponent } from './groups-management/groups-management.component';
+import { SuperAdminComponent } from './super-admin/super-admin.component';
+import { GroupAssisComponent } from './group-assis/group-assis.component';
 
 @NgModule({
   declarations: [
@@ -20,7 +22,9 @@ import { GroupsManagementComponent } from './groups-management/groups-management
     ProfileComponent,
     GroupsComponent,
     GroupAdminComponent,
-    GroupsManagementComponent
+    GroupsManagementComponent,
+    SuperAdminComponent,
+    GroupAssisComponent
   ],
   imports: [
     BrowserModule,

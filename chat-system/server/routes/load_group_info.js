@@ -13,12 +13,6 @@ module.exports = function(req,res){
                 groupRooms.push(roomsArray[i]);
             }
         }
-        // if (groupRooms.length == 0) {
-
-        // }
-        // else {
-
-        // }
         res.send(groupRooms);
     });
 }

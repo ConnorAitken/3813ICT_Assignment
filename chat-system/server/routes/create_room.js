@@ -21,25 +21,30 @@ module.exports = function(req,res){
         if (groupRooms.length != 0) {
             roomID = groupRooms[groupRooms.length - 1].roomID + 1;
         }
-        var room = new Room.Room(req.body.groupID, roomID, req.body.name, 0);
-        roomsArray.push(room);
-
-        fs.writeFile('./data/rooms.json', JSON.stringify(roomsArray), 'utf-8', function(err) {
-            if (err) {
-                res.send({"saved": false});
-                throw err;
-            }
-            // res.send({"saved": true});
-        });
-        var file = './data/assignments/'+room.groupID+'-'+room.roomID+'.json';
-        let emptyArr = [];
-        fs.writeFile(file, JSON.stringify(emptyArr), 'utf-8', function(err) {
-            if (err) {
-                res.send({"saved": false});
-                throw err;
-            }
-            res.send({"saved": true});
-        });
-
+        var room = new Room.Room(req.body.groupID, roomID, req.body.roomName, 0);
+        let i = roomsArray.findIndex(rooms =>
+            (rooms.name == room.name));
+        if (i == -1) {
+            roomsArray.push(room);
+            fs.writeFile('./data/rooms.json', JSON.stringify(roomsArray), 'utf-8', function(err) {
+                if (err) {
+                    res.send({"saved": false, "exists": false});
+                    throw err;
+                }
+                // res.send({"saved": true});
+            });
+            var file = './data/assignments/'+room.groupID+'-'+room.roomID+'.json';
+            let emptyArr = [];
+            fs.writeFile(file, JSON.stringify(emptyArr), 'utf-8', function(err) {
+                if (err) {
+                    res.send({"saved": false, "exists": false});
+                    throw err;
+                }
+                res.send({"saved": true});
+            });
+        }
+        else {
+            res.send({"saved": false, "exists": true});
+        }
     });
 }

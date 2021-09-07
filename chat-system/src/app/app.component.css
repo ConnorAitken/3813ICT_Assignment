@@ -20,6 +20,19 @@ p {
     margin: 0;
 }
 
+button {
+    background-color: #ffffff;
+    color: rgb(129, 127, 127);
+    padding: 7px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: grab;
+    width: 10%;
+}
+button:hover {
+    opacity: 0.8;
+}
+
 .spacer {
     flex: 1;
 }

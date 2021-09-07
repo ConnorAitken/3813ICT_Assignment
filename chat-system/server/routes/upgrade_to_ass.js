@@ -18,7 +18,7 @@ module.exports = function(req,res){
             res.send({"success": false, "exists": false});
         }
         else {
-            if (usersArray[i].role == "User") {
+            if (usersArray[i].role == "stdUser") {
                 usersArray[i].role = "GroupAssis";
                 fs.writeFile('./data/users.json', JSON.stringify(usersArray), 'utf-8', function(err) {
                     if (err) {

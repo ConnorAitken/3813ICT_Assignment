@@ -13,19 +13,21 @@ const BACKEND_URl = 'http://localhost:3000';
   styleUrls: ['./groups.component.css']
 })
 export class GroupsComponent implements OnInit {
-
+  groups: any;
+  selectedGroup: any;
   constructor( private router:Router, private httpClient:HttpClient ) { }
 
   ngOnInit(): void {
     this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
-      // alert(data[1]);
-      // console.log(data);
-      for (let i = 0; i < data.length; i++) {
-        console.log(data[i]);
-        var completelist = document.getElementById("group-list")!;
-        completelist.innerHTML += "<li><a href='#chat_room.html'><i class='fa fa-rocket'></i><span>" + data[i].name + "</span><i class='fa fa-times pull-right'></i></a></li>";
-      } 
+      this.groups = data;
+      this.selectedGroup = this.groups[0];
+      alert(this.selectedGroup.name);
     });
+  }
+
+  onSelect(group: any): void {
+    this.selectedGroup = group;
+    alert(this.selectedGroup.name);
   }
 
 }

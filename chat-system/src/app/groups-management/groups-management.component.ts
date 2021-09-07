@@ -78,12 +78,11 @@ export class GroupsManagementComponent implements OnInit {
     this.data.groupID = this.currentGroup.id;
     this.httpClient.post(BACKEND_URl + '/create_room', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
-        // window.location.reload();
         alert("Saved!!");
       }
       else {
-        // window.location.reload();
-        alert("Error Saving!!");
+        if (data.exists) alert("Channel Already Exists!!");
+        else alert("Error Creating New Channel!!");
       }
     });
   }
