@@ -11,7 +11,9 @@ module.exports = function(req,res){
             throw err;
         }  
         let groupsArray = JSON.parse(data);
-        var group = new Group.Group(groupsArray.length, req.body.groupName, '0', '0');
+        var groupID = groupsArray.length;
+        var groupName = req.body.groupName;
+        var group = new Group.Group(groupID, groupName, 0, 1);
         groupsArray.push(group);
 
         fs.writeFile('./data/groups.json', JSON.stringify(groupsArray), 'utf-8', function(err) {
@@ -19,7 +21,15 @@ module.exports = function(req,res){
                 res.send({"saved": false});
                 throw err;
             }
-            res.send({"saved": true});
+            var superUsr = [{roomID:-1,userID:0,uname:"super"}];
+            var file = './data/groups/'+groupName+'.json';
+            fs.writeFile(file, JSON.stringify(superUsr), 'utf-8', function(err) {
+                if (err) {
+                    res.send({"saved": false});
+                    throw err;
+                }
+                res.send({"saved": true});
+            });
         });
     });
 }

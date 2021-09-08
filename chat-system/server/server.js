@@ -36,4 +36,3 @@ app.post('/upgrade_to_ass', require('./routes/upgrade_to_ass.js'));
 app.post('/create_user', require('./routes/create_user.js'));
 app.post('/upgrade_user', require('./routes/upgrade_user.js'));
 app.post('/load_group_users', require('./routes/load_group_users.js'));
-app.post('/load_temp', require('./routes/load_temp.js'));

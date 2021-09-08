@@ -31,7 +31,6 @@ module.exports = function(req,res){
                     res.send({"saved": false, "exists": false});
                     throw err;
                 }
-                // res.send({"saved": true});
             });
             var file = './data/assignments/'+room.groupID+'-'+room.roomID+'.json';
             let emptyArr = [];
