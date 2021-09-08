@@ -5,7 +5,7 @@ module.exports = function(req,res){
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var customer = new User.User('', req.body.uname, '', '');
+    var upgradedUser = new User.User('', req.body.uname, '', '');
     fs.readFile('./data/users.json', 'utf8', function(err, data) {
         if (err) {
             res.send({"success": false});
@@ -13,7 +13,7 @@ module.exports = function(req,res){
         } 
         let usersArray = JSON.parse(data);
         let i = usersArray.findIndex(user =>
-            (user.uname == customer.uname));
+            (user.uname == upgradedUser.uname));
         if (i == -1) {
             res.send({"success": false, "exists": false});
         }

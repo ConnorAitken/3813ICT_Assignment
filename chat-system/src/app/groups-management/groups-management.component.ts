@@ -16,6 +16,7 @@ const BACKEND_URl = 'http://localhost:3000';
 export class GroupsManagementComponent implements OnInit {
   data = {
     groupID:-1,
+    groupName:"",
     roomID:-1,
     roomName:"",
     userName:""
@@ -35,20 +36,13 @@ export class GroupsManagementComponent implements OnInit {
   constructor(private router:Router, private httpClient:HttpClient) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/');
     }
    }
 
   ngOnInit(): void {
     this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
       this.groups = data;
-      // alert(data[1]);
-      // console.log(data);
-      // for (let i = 0; i < data.length; i++) {
-      //   console.log(data[i]);
-      //   var completelist = document.getElementById("group_select")!;
-      //   completelist.innerHTML += "<option value='" + (i+1) + "'>" + data[i].name + "</option>";
-      // } 
     });
   }
 
@@ -62,15 +56,6 @@ export class GroupsManagementComponent implements OnInit {
     this.currentGroup = this.groups[i];
     this.httpClient.post(BACKEND_URl + '/group_info', this.currentGroup, httpOptions).subscribe((data:any) => {
       this.rooms = data;
-      alert("Rooms Loaded");
-      // if (data.removed) {
-      //   window.location.reload();
-      //   alert("Removed!!");
-      // }
-      // else {
-      //   window.location.reload();
-      //   alert("Error Removing!!");
-      // }
     });
   }
 
@@ -91,23 +76,21 @@ export class GroupsManagementComponent implements OnInit {
     this.data.groupID = this.currentGroup.id;
     this.data.roomName = this.selectedRooms.name;
     this.httpClient.post(BACKEND_URl + '/remove_room', this.data, httpOptions).subscribe((data:any) => {
-      if (data.saved) {
-        // window.location.reload();
-        alert("Saved!!");
+      if (data.removed) {
+        alert("Removed!!");
       }
       else {
-        // window.location.reload();
-        alert("Error Saving!!");
+        alert("Error Removing!!");
       }
     });
   }
 
   ivite_user() {
     this.data.groupID = this.currentGroup.id;
+    this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoomsUsers.name;
     this.httpClient.post(BACKEND_URl + '/invite_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
-        // window.location.reload();
         alert("Invited!!");
       }
       else {
@@ -120,10 +103,10 @@ export class GroupsManagementComponent implements OnInit {
 
   remove_user() {
     this.data.groupID = this.currentGroup.id;
+    this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoomsUsers.name;
     this.httpClient.post(BACKEND_URl + '/remove_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
-        // window.location.reload();
         alert("Removed!!");
       }
       else {
@@ -136,7 +119,6 @@ export class GroupsManagementComponent implements OnInit {
   upgrade_user() {
     this.httpClient.post(BACKEND_URl + '/upgrade_to_ass', {"uname":this.newAss}, httpOptions).subscribe((data:any) => {
       if (data.success) {
-        // window.location.reload();
         alert("Upgraded!!");
       }
       else {
@@ -145,21 +127,5 @@ export class GroupsManagementComponent implements OnInit {
         else alert("Error Upgrading!!");
       }
     });
-  }
-
-
-  save() {
-    // this.httpClient.post(BACKEND_URl + '/edit', this.user, httpOptions).subscribe((data:any) => {
-    //   if (data.saved) {
-    //     sessionStorage.setItem('id', this.user.id!);
-    //     sessionStorage.setItem('uname', this.user.uname!);
-    //     sessionStorage.setItem('email', this.user.email!);
-    //     sessionStorage.setItem('role', this.user.role!);
-    //     this.router.navigateByUrl('/account');
-    //   }
-    //   else {
-    //     alert("Error Saving!!");
-    //   }
-    // });
   }
 }

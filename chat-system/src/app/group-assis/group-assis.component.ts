@@ -16,6 +16,7 @@ const BACKEND_URl = 'http://localhost:3000';
 export class GroupAssisComponent implements OnInit {
   data = {
     groupID:-1,
+    groupName:"",
     roomID:-1,
     roomName:"",
     userName:""
@@ -34,7 +35,7 @@ export class GroupAssisComponent implements OnInit {
   constructor(private router:Router, private httpClient:HttpClient) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/');
     }
    }
 
@@ -45,7 +46,7 @@ export class GroupAssisComponent implements OnInit {
   }
 
   return() {
-    this.router.navigateByUrl('/groups');
+    this.router.navigateByUrl('/home');
   }
   
   choose() {
@@ -54,15 +55,21 @@ export class GroupAssisComponent implements OnInit {
     this.currentGroup = this.groups[i];
     this.httpClient.post(BACKEND_URl + '/group_info', this.currentGroup, httpOptions).subscribe((data:any) => {
       this.rooms = data;
-      this.httpClient.post(BACKEND_URl + '/load_group_users', this.rooms, httpOptions).subscribe((data:any) => {
-        if (data.success) {
-          this.httpClient.post(BACKEND_URl + '/load_temp', this.rooms, httpOptions).subscribe((data:any) => {
-            this.users = data;
-          });
+      this.httpClient.post(BACKEND_URl + '/load_group_users', this.currentGroup, httpOptions).subscribe((data:any) => {
+        let temp = [];
+        var check = true;
+        for (let i = 0; i < data.length; i++) {
+          for (let x = i+1; x < data.length; x++) {
+            if (data[i].uname == data[x].uname) {
+              check = false;
+            }
+          }
+          if (check) {
+            temp.push(data[i]);
+          }
+          check = true;
         }
-        else {
-          alert("Error Loading Users!!");
-        }
+        this.users = temp; 
       });
     });
   }
@@ -82,7 +89,9 @@ export class GroupAssisComponent implements OnInit {
 
   ivite_user() {
     this.data.groupID = this.currentGroup.id;
-    this.data.roomName = this.selectedUser.name;
+    this.data.groupName = this.currentGroup.name;
+    this.data.roomName = this.selectedRoom.name;
+    this.data.userName = this.selectedUser.uname;
     this.httpClient.post(BACKEND_URl + '/invite_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Invited!!");
@@ -90,14 +99,15 @@ export class GroupAssisComponent implements OnInit {
       else {
         if (data.exists) alert("User Already In Channel!!");
         else alert("Error Inviting!!");
-        
       }
     });
   }
 
   remove_user() {
     this.data.groupID = this.currentGroup.id;
-    this.data.roomName = this.selectedUser.name;
+    this.data.groupName = this.currentGroup.name;
+    this.data.roomName = this.selectedRoom.name;
+    this.data.userName = this.selectedUser.uname;
     this.httpClient.post(BACKEND_URl + '/remove_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Removed!!");

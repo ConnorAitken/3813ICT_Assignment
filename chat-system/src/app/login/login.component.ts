@@ -28,7 +28,7 @@ export class LoginComponent implements OnInit {
                 sessionStorage.setItem('email', data.email);
                 sessionStorage.setItem('role', data.role);
                 this.toggleClass = true;
-                this.router.navigateByUrl('/account');
+                this.router.navigateByUrl('/home');
             }
             else {
                 this.toggleClass = false;

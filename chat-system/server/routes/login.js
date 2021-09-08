@@ -5,21 +5,18 @@ module.exports = function(req,res){
     if (!req.body) {
         return res.sendStatus(400);
     }
-    var customer = new User.User('', req.body.uname, '', '');
+    var newUser = new User.User('', req.body.uname, '', '');
     fs.readFile('./data/users.json', 'utf8', function(err, data) {
         if (err) throw err;
         let usersArray = JSON.parse(data);
-        console.log(customer);
         let i = usersArray.findIndex(user =>
-            (user.uname == customer.uname));
+            (user.uname == newUser.uname));
         if (i == -1) {
-            customer.valid = false;
-            console.log(customer);
-            res.send(customer);
+            newUser.valid = false;
+            res.send(newUser);
         }
         else {
             usersArray[i].valid = true;
-            console.log(usersArray[i]);
             res.send(usersArray[i]);
         }
     });

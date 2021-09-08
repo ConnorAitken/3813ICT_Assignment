@@ -6,8 +6,6 @@ import { HttpClientModule } from '@angular/common/http'
 import { AppRoutingModule } from './app-routing.module';
 import { AppComponent } from './app.component';
 import { LoginComponent } from './login/login.component';
-import { AccountComponent } from './account/account.component';
-import { ProfileComponent } from './profile/profile.component';
 import { GroupsComponent } from './groups/groups.component';
 import { GroupAdminComponent } from './group-admin/group-admin.component';
 import { GroupsManagementComponent } from './groups-management/groups-management.component';
@@ -18,8 +16,6 @@ import { GroupAssisComponent } from './group-assis/group-assis.component';
   declarations: [
     AppComponent,
     LoginComponent,
-    AccountComponent,
-    ProfileComponent,
     GroupsComponent,
     GroupAdminComponent,
     GroupsManagementComponent,

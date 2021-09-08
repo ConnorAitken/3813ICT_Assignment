@@ -33,7 +33,7 @@
         <div class="row">
             <label><strong>Upgrade User's Role</strong></label><br>
             <input type="text" id="upUserName" name="upUserName" style="width: 35%;" placeholder="Username" required="required" [(ngModel)]="upUserName">
-            <select style="width: 25%; margin: 5px;" name="user_roles" id="user_roles" (change)="test()" [(ngModel)]="selectedUpgradedRole">
+            <select style="width: 25%; margin: 5px;" name="user_roles" id="user_roles" [(ngModel)]="selectedUpgradedRole">
                 <option value="Role">Role</option>
                 <option value="SuperAdmin">Super-Admin</option>
                 <option value="GroupAdmin">Group-Admin</option>

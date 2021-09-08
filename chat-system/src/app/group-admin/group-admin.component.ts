@@ -28,38 +28,23 @@ export class GroupAdminComponent implements OnInit {
   constructor(private router:Router, private httpClient:HttpClient) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/');
     }
-    // this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
-    //   this.groups = data;
-    // });
    }
 
   ngOnInit(): void {
     this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
       this.groups = data;
-      // alert(data[1]);
-      // console.log(data);
-      // for (let i = 0; i < data.length; i++) {
-      //   console.log(data[i]);
-      //   var completelist = document.getElementById("group_select")!;
-      //   completelist.innerHTML += "<option value='" + (i+1) + "'>" + data[i].name + "</option>";
-      // } 
     });
   }
 
   return() {
-    this.router.navigateByUrl('/account');
+    this.router.navigateByUrl('/home');
   }
 
   create_group() {
     this.httpClient.post(BACKEND_URl + '/create_group', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
-        // sessionStorage.setItem('id', this.user.id!);
-        // sessionStorage.setItem('uname', this.user.uname!);
-        // sessionStorage.setItem('email', this.user.email!);
-        // sessionStorage.setItem('role', this.user.role!);
-        // this.router.navigateByUrl('/account');
         window.location.reload();
         alert("Saved!!");
       }
@@ -82,7 +67,6 @@ export class GroupAdminComponent implements OnInit {
         alert("Error Removing!!");
       }
     });
-    // window.location.reload();
   }
 
   group_management() {

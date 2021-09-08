@@ -1,7 +1,7 @@
 body{
     margin-top:20px;
-    background:#f5f5f5;
-    padding: 100px;
+    background:#ffffff;
+    padding: 70px;
 }
 
 /*
@@ -9,6 +9,19 @@ body{
     CHAT ROOM
     =================================
 */
+
+.roleBTN {
+    background-color: #ffffff;
+    color: rgb(129, 127, 127);
+    padding: 7px;
+    margin: 10px;
+    border: 1px solid #ccc;
+    cursor: grab;
+    width: 100%;
+}
+.roleBTN:hover {
+    opacity: 0.8;
+}
 
 .chat-room {
     border-collapse: collapse;
@@ -70,6 +83,7 @@ body{
 
 .chat-room .user-head h3 {
     margin: 6px 0 0 0;
+    font-size: 30px;
     font-weight: 100;
     letter-spacing: 1px;
 }
@@ -82,7 +96,8 @@ body{
 }
 
 .chat-room-head h3 {
-    margin: 5px 0 0;
+    margin: 6px 0 0 0;
+    font-size: 30px;
     font-weight: 100;
     letter-spacing: 1px;
     display: inline-block;
@@ -181,16 +196,16 @@ ul.chat-user li a:hover{
     background: #d5d7de;
     padding: 15px;
     height: 70px;
-    width: 25%;
+    width: 50%;
     position: absolute;
     bottom: 0;
 }
 
 .chat-room .tengah-side footer {
-    background: #f6f6f6;
+    background: #e5e8ef;
     padding: 15px;
     height: 70px;
-    width: 50%;
+    width: 63.3%;
     position: absolute;
     bottom: 0;
     border-right: 1px solid #E5E8EF;
@@ -200,7 +215,7 @@ ul.chat-user li a:hover{
     background: #fff;
     padding: 15px;
     height: 70px;
-    width: 25%;
+    width: 50%;
     position: absolute;
     bottom: 0;
     border-top: 1px solid #E5E8EF;
@@ -377,4 +392,11 @@ a.guest-on i {
 
 .lobby {
     padding: 0 !important;
+}
+
+.hide{
+    display:none;
+}
+.show{
+    display:block;   
 }

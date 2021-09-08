@@ -8,7 +8,7 @@ import { Router } from '@angular/router';
 })
 export class AppComponent {
   title = 'chat-system';
-
+  role=sessionStorage.getItem('role');
   constructor(private router:Router) { }
 
   ngOnInit(){
@@ -18,6 +18,6 @@ export class AppComponent {
 
   logOut() {
     sessionStorage.clear();
-    this.router.navigateByUrl('/login');
+    this.router.navigateByUrl('/');
   }
 }

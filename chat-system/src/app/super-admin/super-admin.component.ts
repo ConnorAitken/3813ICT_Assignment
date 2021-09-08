@@ -30,22 +30,18 @@ export class SuperAdminComponent implements OnInit {
   constructor(private router:Router, private httpClient:HttpClient) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
-      this.router.navigateByUrl('/login');
+      this.router.navigateByUrl('/');
     }
    }
 
   ngOnInit(): void { }
 
   return() {
-    this.router.navigateByUrl('/groups');
+    this.router.navigateByUrl('/home');
   }
 
   group_admin() {
     this.router.navigateByUrl('/group-admin');
-  }
-
-  test() {
-    // alert(this.selectedUpgradedRole);
   }
 
   create_user() {
