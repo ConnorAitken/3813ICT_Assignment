@@ -1,14 +1,10 @@
 module.exports = {
     Group: class {
-        id = "";
+        id = 0;
         name = "";
-        numOfRooms = "";
-        numOfUsers = "";
-        constructor(id, name, numOfRooms, numOfUsers) {
+        constructor(id, name) {
             this.id = id;
             this.name = name;
-            this.numOfRooms = numOfRooms;
-            this.numOfUsers = numOfUsers;
         }
     }
 }

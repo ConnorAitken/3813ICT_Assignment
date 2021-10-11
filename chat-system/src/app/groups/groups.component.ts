@@ -20,6 +20,7 @@ export class GroupsComponent implements OnInit {
   selectedRoom: any;
 
   users: any;
+  groupInfo: any
 
   toggleClass: boolean = false;
   toggleRole: boolean = false;
@@ -91,6 +92,17 @@ export class GroupsComponent implements OnInit {
       this.rooms = data;
       this.httpClient.post(BACKEND_URl + '/load_group_users', this.selectedGroup, httpOptions).subscribe((data:any) => {
         this.users = data; 
+        if (this.userRole == "stdUser" || this.userRole == "GroupAssistant") {
+          let i = this.users.findIndex((user:any) =>(user.userID == this.userID));
+          if (this.users[i].groupAssis) {
+            this.userRole = "GroupAssistant"
+            this.toggleRole = false;
+          }
+          else {
+            this.userRole = "stdUser"
+            this.toggleRole = true;
+          }
+        }
       });
     });
   }
@@ -103,6 +115,6 @@ export class GroupsComponent implements OnInit {
   roleOptions() {
     if (this.userRole == "SuperAdmin") this.router.navigateByUrl('/super-admin');
     else if (this.userRole == "GroupAdmin") this.router.navigateByUrl('/group-admin');
-    else this.router.navigateByUrl('/group-assis');
+    else this.router.navigate(['/group-assis', this.selectedGroup.id, this.selectedGroup.name]);
   }
 }

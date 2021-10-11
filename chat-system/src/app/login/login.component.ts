@@ -14,7 +14,7 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 
 export class LoginComponent implements OnInit {
-    customer = {uname: '', valid: false};
+    customer = {uname: '', password: '', valid: false};
     toggleClass: boolean = true;
     constructor( private router:Router, private httpClient:HttpClient ) { }
 
@@ -33,6 +33,7 @@ export class LoginComponent implements OnInit {
             else {
                 this.toggleClass = false;
                 this.customer.uname = "";
+                this.customer.password = "";
                 this.customer.valid = false;
             }
         });

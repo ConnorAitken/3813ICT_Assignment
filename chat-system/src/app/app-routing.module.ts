@@ -13,7 +13,7 @@ const routes: Routes = [
   {path:'group-admin', component:GroupAdminComponent},
   {path:'group-manage', component:GroupsManagementComponent},
   {path:'super-admin', component:SuperAdminComponent},
-  {path:'group-assis', component:GroupAssisComponent},
+  {path:'group-assis/:groupID/:groupName', component:GroupAssisComponent},
 ];
 
 @NgModule({

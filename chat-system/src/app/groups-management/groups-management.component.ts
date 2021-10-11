@@ -89,6 +89,7 @@ export class GroupsManagementComponent implements OnInit {
     this.data.groupID = this.currentGroup.id;
     this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoomsUsers.name;
+    this.data.roomID = this.selectedRoomsUsers.roomID;
     this.httpClient.post(BACKEND_URl + '/invite_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Invited!!");
@@ -105,6 +106,7 @@ export class GroupsManagementComponent implements OnInit {
     this.data.groupID = this.currentGroup.id;
     this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoomsUsers.name;
+    this.data.roomID = this.selectedRoomsUsers.roomID;
     this.httpClient.post(BACKEND_URl + '/remove_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Removed!!");
@@ -117,13 +119,12 @@ export class GroupsManagementComponent implements OnInit {
   }
 
   upgrade_user() {
-    this.httpClient.post(BACKEND_URl + '/upgrade_to_ass', {"uname":this.newAss}, httpOptions).subscribe((data:any) => {
+    this.httpClient.post(BACKEND_URl + '/upgrade_to_ass', {"userName":this.newAss, "groupName":this.currentGroup.name}, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Upgraded!!");
       }
       else {
         if (!data.exists) alert("User Not Found In Channel!!");
-        else if (!data.User) alert("User Already GroupAssis Or Above!!");
         else alert("Error Upgrading!!");
       }
     });

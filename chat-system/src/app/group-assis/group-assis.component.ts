@@ -26,13 +26,11 @@ export class GroupAssisComponent implements OnInit {
   rooms: any;
   users: any;
 
-  selectedGroup: any;
   selectedRoom: any;
   selectedUser: any;
 
-  currentGroup: any;
 
-  constructor(private router:Router, private httpClient:HttpClient) {
+  constructor(private router:Router, private httpClient:HttpClient, private route: ActivatedRoute) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -40,22 +38,12 @@ export class GroupAssisComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
-      this.groups = data;
-    });
-  }
-
-  return() {
-    this.router.navigateByUrl('/home');
-  }
-  
-  choose() {
-    let i = this.groups.findIndex((group:any) =>
-      (group.name == this.selectedGroup.name));
-    this.currentGroup = this.groups[i];
-    this.httpClient.post(BACKEND_URl + '/group_info', this.currentGroup, httpOptions).subscribe((data:any) => {
+    this.data.groupID = Number(this.route.snapshot.params.groupID);
+    this.data.groupName = this.route.snapshot.params.groupName;
+    console.log(this.data.groupID);
+    this.httpClient.post(BACKEND_URl + '/group_info', {"id":this.data.groupID}, httpOptions).subscribe((data:any) => {
       this.rooms = data;
-      this.httpClient.post(BACKEND_URl + '/load_group_users', this.currentGroup, httpOptions).subscribe((data:any) => {
+      this.httpClient.post(BACKEND_URl + '/load_group_users', {"name":this.data.groupName}, httpOptions).subscribe((data:any) => {
         let temp = [];
         var check = true;
         for (let i = 0; i < data.length; i++) {
@@ -74,11 +62,15 @@ export class GroupAssisComponent implements OnInit {
     });
   }
 
+  return() {
+    this.router.navigateByUrl('/home');
+  }
+
   create_channel() {
-    this.data.groupID = this.currentGroup.id;
     this.httpClient.post(BACKEND_URl + '/create_room', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
         alert("Saved!!");
+        window.location.reload();
       }
       else {
         if (data.exists) alert("Channel Already Exists!!");
@@ -88,13 +80,13 @@ export class GroupAssisComponent implements OnInit {
   }
 
   ivite_user() {
-    this.data.groupID = this.currentGroup.id;
-    this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoom.name;
+    this.data.roomID = this.selectedRoom.roomID;
     this.data.userName = this.selectedUser.uname;
     this.httpClient.post(BACKEND_URl + '/invite_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Invited!!");
+        window.location.reload();
       }
       else {
         if (data.exists) alert("User Already In Channel!!");
@@ -104,13 +96,13 @@ export class GroupAssisComponent implements OnInit {
   }
 
   remove_user() {
-    this.data.groupID = this.currentGroup.id;
-    this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRoom.name;
+    this.data.roomID = this.selectedRoom.roomID;
     this.data.userName = this.selectedUser.uname;
     this.httpClient.post(BACKEND_URl + '/remove_user', this.data, httpOptions).subscribe((data:any) => {
       if (data.success) {
         alert("Removed!!");
+        window.location.reload();
       }
       else {
         if (!data.exists) alert("User Not Found In Channel!!");

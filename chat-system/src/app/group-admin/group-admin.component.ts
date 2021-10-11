@@ -15,10 +15,8 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 export class GroupAdminComponent implements OnInit {
   data = {
-    id:-1,
-    channelName:"",
+    _id:"",
     groupName:"",
-    valid:false
   }
 
   groups: any;
@@ -46,27 +44,34 @@ export class GroupAdminComponent implements OnInit {
     this.httpClient.post(BACKEND_URl + '/create_group', this.data, httpOptions).subscribe((data:any) => {
       if (data.saved) {
         window.location.reload();
-        alert("Saved!!");
+        alert("Group Created");
       }
       else {
         window.location.reload();
-        alert("Error Saving!!");
+        alert("Group Already Exists or Error Occurred");
       }
     });
   }
 
   remove_group() {
-    this.data.groupName = this.selectedGroup.name;
-    this.httpClient.post(BACKEND_URl + '/remove_group', this.data, httpOptions).subscribe((data:any) => {
-      if (data.removed) {
-        window.location.reload();
-        alert("Removed!!");
-      }
-      else {
-        window.location.reload();
-        alert("Error Removing!!");
-      }
-    });
+    let i = this.groups.findIndex((group:any) =>
+      (group.name == this.selectedGroup.name));
+    if (i == -1) {
+      console.log("Failed to find group");
+    }
+    else {
+      this.data._id = this.groups[i]._id;
+      this.httpClient.post(BACKEND_URl + '/remove_group', this.data, httpOptions).subscribe((data:any) => {
+        if (data.removed) {
+          window.location.reload();
+          alert("Removed!!");
+        }
+        else {
+          window.location.reload();
+          alert("Error Removing!!");
+        }
+      });
+    }
   }
 
   group_management() {

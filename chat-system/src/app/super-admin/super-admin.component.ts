@@ -16,11 +16,13 @@ const BACKEND_URl = 'http://localhost:3000';
 export class SuperAdminComponent implements OnInit {
   data = {
     userName:"",
+    password:"",
     email:"",
     role:""
   }
 
   newUserName = "";
+  newPassword = "";
   newEmail = "";
   selectedRole = "Role";
 
@@ -46,6 +48,7 @@ export class SuperAdminComponent implements OnInit {
 
   create_user() {
     this.data.userName = this.newUserName;
+    this.data.password = this.newPassword;
     this.data.email = this.newEmail;
     this.data.role = this.selectedRole;
     if (this.data.role == "Role") {
@@ -56,6 +59,7 @@ export class SuperAdminComponent implements OnInit {
         if (data.success) {
           alert("Added!!");
           this.newUserName = "";
+          this.newPassword = "";
           this.newEmail = "";
           this.selectedRole = "Role";
         }
@@ -82,7 +86,7 @@ export class SuperAdminComponent implements OnInit {
         }
         else {
           if (data.exists) alert("User Already Super-Admin Or Group-Admin!!");
-          else alert("Error Upgrading!!");
+          else alert("User not Found or Error Occurred!!");
         }
       });
     }

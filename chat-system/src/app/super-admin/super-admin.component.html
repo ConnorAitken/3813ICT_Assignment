@@ -18,13 +18,13 @@
       <div class="container">
         <div class="row">
             <label><strong>Create New User</strong></label><br>
-            <input type="text" id="newUserName" name="newUserName" style="width: 25%;" placeholder="Username" required="required" [(ngModel)]="newUserName">
-            <input type="text" id="newEmail" name="newEmail" style="width: 48%; margin: 5px;" placeholder="Email@gmail.com" required="required" [(ngModel)]="newEmail">
-            <select style="width: 25%;" name="user_roles" id="user_roles" [(ngModel)]="selectedRole">
+            <input type="text" id="newUserName" name="newUserName" style="width: 20%; margin: 5px;" placeholder="Username" required="required" [(ngModel)]="newUserName">
+            <input type="text" id="newPassword" name="newPassword" style="width: 20%;" placeholder="Password" required="required" [(ngModel)]="newPassword">
+            <input type="text" id="newEmail" name="newEmail" style="width: 35%; margin: 5px;" placeholder="Email@gmail.com" required="required" [(ngModel)]="newEmail">
+            <select style="width: 20%;" name="user_roles" id="user_roles" [(ngModel)]="selectedRole">
                 <option value="Role">Role</option>
                 <option value="SuperAdmin">Super-Admin</option>
                 <option value="GroupAdmin">Group-Admin</option>
-                <option value="GroupAssis">Group-Assis</option>
                 <option value="stdUser">stdUser</option>
             </select><br>
             <button type="submit" style="margin-left:25%; margin-right:25%;" (click)="create_user()"><strong>CREATE USER</strong></button>

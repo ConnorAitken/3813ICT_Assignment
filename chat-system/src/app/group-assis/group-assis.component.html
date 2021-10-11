@@ -17,10 +17,8 @@
         </div>
         <div class="container">
             <div class="row">
-            <label style="font-size:18px;"><strong>Select Group:    </strong></label>
-            <select class="form-select form-select-lg mb-3" style="width: 28%;" aria-label=".form-select-lg groups" name="group_select" id="group_select" (change)="choose()" [(ngModel)]="selectedGroup">
-              <option *ngFor="let item of groups" [ngValue]="item">{{item.name}}</option>
-            </select>
+            <label style="font-size:18px;"><strong>Selected Group:    </strong></label>
+            <label style="font-size:18px;"><strong> {{data.groupName}}   </strong></label>
             </div>
             <hr>
             <form #myForm="ngForm" (ngSubmit)="myForm.resetForm()">
