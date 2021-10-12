@@ -1,6 +1,10 @@
 import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
+import { DatePipe } from '@angular/common';
+import { formatDate } from '@angular/common';
+import { SocketService } from '../services/socket.service';
+import { ImgUploadService } from '../services/img-upload.service';
 const httpOptions = {
     headers: new HttpHeaders({ 'Content-Type':'application/json' })
 };
@@ -22,8 +26,10 @@ export class GroupsComponent implements OnInit {
   users: any;
   groupInfo: any
 
-  toggleClass: boolean = false;
+  toggleGroups: boolean = false;
+  toggleRooms: boolean = false;
   toggleRole: boolean = false;
+  toggleChat: boolean = false;
 
   Header: any;
 
@@ -31,26 +37,77 @@ export class GroupsComponent implements OnInit {
   userID;
   userName;
 
-  constructor( private router:Router, private httpClient:HttpClient ) {
+  messageData = {
+    userName:"",
+    message:"",
+    dateTime:""
+  }
+  messagecontent:any;
+  messages:any[] = [];
+  ioConnection:any;
+
+  imagePath:string="";
+  selectedFile:any = null;
+
+  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService ) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
     }
     this.userID = sessionStorage.getItem('id');
-    this.userName = sessionStorage.getItem('uname');
+    this.userName = sessionStorage.getItem('uname')!;
     this.userRole = sessionStorage.getItem('role');
     if (this.userRole == "stdUser") {
       this.toggleRole = true;
     }
-   }
+  }
 
   ngOnInit(): void {
+    this.initIoConnection();
     if (this.userRole == "SuperAdmin") {
       this.loadSuper();
     }
     else {
       this.loadEveryoneElse();
     }
+  }
+
+  private initIoConnection() {
+    this.socketService.initSocket();
+    this.ioConnection = this.socketService.getMessage().subscribe((message:any) => {
+        // add new message to the messages array.
+        this.messages.push(message);
+        // console.log(this.selectedRoom);
+        this.httpClient.post(BACKEND_URl + '/save_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}, httpOptions).subscribe((data:any) => {});
+      });
+  }
+
+  public chat() {
+    if(this.messagecontent && !this.toggleChat) {
+      // check there is a message to send
+      this.messageData.userName = this.userName;
+      this.messageData.message = this.messagecontent;
+      this.messageData.dateTime = formatDate(Date.now(),'h:mm a', 'en-US');
+      this.socketService.send(this.messageData);
+      this.messagecontent = "";
+    }
+    else {
+      console.log("no message");
+    }
+  }
+
+  onFileSelected(event:any) {
+    console.log("event: ", event)
+    this.selectedFile = event.target.files[0];
+  }
+
+  onUpload() {
+    const fd = new FormData();
+    fd.append('image', this.selectedFile, this.selectedFile.name);
+    this.imgUploadService.imgUpload(fd).subscribe((res:any)=>{
+      this.imagePath = res.data.filename;
+      console.log("retrun: " + res.data.filename + ' , ' + res.data.size);
+    });
   }
 
   loadSuper() {
@@ -82,10 +139,15 @@ export class GroupsComponent implements OnInit {
   }
 
   groupsToggle() {
-    this.toggleClass = !this.toggleClass;
+    this.toggleGroups = !this.toggleGroups;
+  }
+
+  roomsToggle() {
+    this.toggleRooms = !this.toggleRooms;
   }
 
   onSelectGroup(group: any): void {
+    this.toggleChat = true;
     this.selectedGroup = group;
     this.Header = this.selectedGroup.name;
     this.httpClient.post(BACKEND_URl + '/group_info', this.selectedGroup, httpOptions).subscribe((data:any) => {
@@ -108,8 +170,19 @@ export class GroupsComponent implements OnInit {
   }
 
   onSelectRoom(room: any): void{
+    this.toggleChat = false;
     this.selectedRoom = room;
     this.Header = this.selectedGroup.name +" - "+ this.selectedRoom.name;
+    this.httpClient.post(BACKEND_URl + '/load_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}, httpOptions).subscribe((data:any) => {
+      if (data.length > 0) {
+        this.messages = data[0].messages;
+      }
+      else {
+        this.messages = [];
+      }
+      // this.messages = data[0].messages;
+      // console.log(data.length);
+    });
   }
 
   roleOptions() {

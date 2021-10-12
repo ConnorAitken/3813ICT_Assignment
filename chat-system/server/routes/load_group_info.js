@@ -6,8 +6,8 @@ module.exports = function(db,app){
         }
         const collection = db.collection('rooms');
         collection.find({groupID:req.body.id}).toArray().then(function(data) {
-            console.log("Found the following records");
-            console.log(data);
+            // console.log("Found the following records");
+            // console.log(data);
             res.send(data);
         });
     });

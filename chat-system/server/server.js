@@ -1,20 +1,39 @@
 var express = require('express'); //used for routing
 var app = express();
+var cors = require('cors');
+var bodyParser = require('body-parser');
+const formidable = require('formidable');
+const path = require('path')
 
 const MongoClient = require('mongodb').MongoClient;
 var ObjectID = require('mongodb').ObjectID;
 const url = 'mongodb://localhost:27017'; // Connection URL
 
-var cors = require('cors');
 app.use(cors());
 
-var bodyParser = require('body-parser');
 app.use(express.urlencoded({extended:true}));
 app.use(express.json());
 app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../dist/my-app'));
+// app.use(express.static(__dirname + '/../dist/imageupload/'));
+app.use('/images',express.static(path.join(__dirname, './userimages')));
 console.log(__dirname);
+
+var http = require('http').Server(app);
+const io = require('socket.io')(http,{
+    cors: {
+        origin: "http://localhost:4200",
+        methods: ["GET", "POST"],
+    }
+});
+const sockets = require('./socket.js');
+
+// Define port used for the server
+const PORT = 3000;
+
+// Setup Spcket
+sockets.connect(io,PORT);
 
 MongoClient.connect(url, {maxPoolSize:10, useNewUrlParser: true, useUnifiedTopology: true}, function(err, client) {
     // Callback funciton code. When we have a connection start the rest of the app.
@@ -36,10 +55,12 @@ MongoClient.connect(url, {maxPoolSize:10, useNewUrlParser: true, useUnifiedTopol
     require('./routes/create_user.js')(db,app);
     require('./routes/upgrade_user.js')(db,app,ObjectID);
     require('./routes/load_group_users.js')(db,app);
+    require('./routes/save_chat.js')(db,app);
+    require('./routes/load_chat.js')(db,app);
+    require('./routes/upload_img.js')(app,formidable);
 
     // Start the server listening on port 3000. Output message to console once server has started. (Diagnostic only)
-    var http = require('http').Server(app);
-    var server = http.listen(3000, function() {
+    var server = http.listen(PORT, function() {
         var d = new Date();
         var n = d.getHours();
         var m = d.getMinutes();

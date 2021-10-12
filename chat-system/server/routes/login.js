@@ -9,7 +9,7 @@ module.exports = function(db,app){
                 newUser = new User.User(data[0].id, data[0].uname, data[0].password, data[0].email, data[0].role);
                 newUser.valid = true;
             }
-            console.log(newUser);
+            // console.log(newUser);
             res.send(newUser);
         });
     });

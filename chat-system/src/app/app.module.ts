@@ -26,9 +26,9 @@ import { GroupAssisComponent } from './group-assis/group-assis.component';
   ],
   imports: [
     BrowserModule,
-    AppRoutingModule,
     FormsModule, 
-    HttpClientModule
+    HttpClientModule,
+    AppRoutingModule
   ],
   providers: [SocketService],
   bootstrap: [AppComponent]

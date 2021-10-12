@@ -1,14 +1,14 @@
 module.exports = function(db,app){
-    // Route to get list of all groups from the database.
-    app.post('/groups',function(req,res) {
+    // Route to manage adding a user
+    app.post('/load_chat',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);
         }
-        const collection = db.collection('groups');
+        var coll = req.body.groupName + '_' + req.body.roomName;
+        const collection = db.collection(coll);
         collection.find({}).toArray().then(function(data) {
             // console.log("Found the following records");
-            // console.log(data);
-            // console.log(typeof(data));
+            console.log(data);
             res.send(data);
         });
     });

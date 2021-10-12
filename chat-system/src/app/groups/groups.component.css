@@ -43,6 +43,7 @@ body{
 
 .chat-room .kiri-side {
     width: 25%;
+    /* height: 100px; */
     background: #e5e8ef;
     border-radius: 4px 0 0 4px;
     -webkit-border-radius: 4px 0 0 4px;
@@ -386,8 +387,8 @@ a.guest-on i {
 
 .chat-txt {
     float: left;
-    width: 70%;
-    margin-right: 5px;
+    width: 100%;
+    margin-right: 0px;
 }
 
 .lobby {

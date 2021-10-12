@@ -12,7 +12,7 @@
                     <i class="fa fa-comments-o"></i>
                     <h3>Color Chat</h3>
                 </div>
-                <ul class="chat-list">
+                <ul class="chat-list" style="padding-bottom: 100px;">
                     <li (click)="groupsToggle()">
                         <a>
                             <h4>
@@ -21,7 +21,7 @@
                             </h4>
                         </a>
                     </li>
-                    <div id="groupDiv" class="hide" [ngClass]="toggleClass ? 'hide' : 'show'">
+                    <div id="groupDiv" class="hide" [ngClass]="toggleGroups ? 'hide' : 'show'">
                         <li *ngFor="let group of groups" [ngClass]="{'selected':true}" (click)="onSelectGroup(group)">
                             <a>
                                 <i class="fa fa-rocket"></i>
@@ -29,15 +29,17 @@
                             </a>
                         </li>
                     </div>
-                    <li (click)="groupsToggle()">
-                        <a>
-                            <h4>
-                                <i class="fa fa-list"></i>
-                                ROOMS
-                            </h4>
-                        </a>
-                    </li>
-                    <div id="groupDiv" class="hide" [ngClass]="toggleClass ? 'hide' : 'show'">
+                    <div>
+                        <li id="roomli" name="roomli" (click)="roomsToggle()">
+                            <a>
+                                <h4>
+                                    <i class="fa fa-list"></i>
+                                    ROOMS
+                                </h4>
+                            </a>
+                        </li>
+                    </div>
+                    <div id="roomDiv" name="roomDiv" class="hide" [ngClass]="toggleRooms ? 'hide' : 'show'">
                         <li *ngFor="let room of rooms" [ngClass]="{'selected':true}" (click)="onSelectRoom(room)">
                             <a>
                                 <i class="fa fa-circle text-success"></i>
@@ -70,7 +72,15 @@
                         <button class="roleBTN" [ngClass]="toggleRole ? 'hide' : 'show'" type="submit" (click)="roleOptions()"><strong>{{userRole}} Options</strong></button>
                     </form>
                 </div>
-                <div class="group-rom">
+                <span *ngFor="let message of messages" class="hide" [ngClass]="toggleChat ? 'hide' : 'show'">
+                    <div class="group-rom">
+                        <div class="first-part odd">{{message.userName}}</div>
+                        <div class="second-part">{{message.message}}</div>
+                        <div class="third-part">{{message.dateTime}}</div>
+                    </div>
+                </span>
+                <img src="images/{{imagePath}}">
+                <!--<div class="group-rom">
                     <div class="first-part odd">Jonathan Smith</div>
                     <div class="second-part">Hello Cendy are you there?</div>
                     <div class="third-part">12:30</div>
@@ -100,20 +110,14 @@
                     <div class="first-part">Cendy Andrianto</div>
                     <div class="second-part">Fantastic job, love it :)</div>
                     <div class="third-part">12:32</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part odd">Jonathan Smith</div>
-                    <div class="second-part">Thanks</div>
-                    <div class="third-part">12:33</div>
-                </div>
+                </div>-->
                 <footer class="group-rom">
                     <div class="chat-txt">
-                        <input type="text" class="form-control">
+                        <input type="text" style="margin-right: 2em;" [(ngModel)]="messagecontent" name="messagecontent" id="messagecontent" class="form-control"/>
+                        <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id="uploadfile"/>
+                        <br/>
+                        <button type="button" class="btn btn-danger" (click)="chat()">Send</button>
                     </div>
-                    <div class="btn-group">
-                        <button type="button" class="btn btn-white" data-original-title="" title=""><i class=" fa fa-paperclip"></i></button>
-                    </div>
-                    <button class="btn btn-danger" data-original-title="" title="">Send</button>
                 </footer>
             </aside>
             <!-- end:aside tengah chat room -->
