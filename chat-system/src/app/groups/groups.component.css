@@ -347,7 +347,7 @@ ul.chat-available-user li i {
 .group-rom .second-part,
 .group-rom .third-part {
     float: left;
-    padding: 15px;
+    /* padding: 15px; */
 }
 
 .group-rom .first-part {
@@ -401,3 +401,9 @@ a.guest-on i {
 .show{
     display:block;   
 }
+
+.example-viewport {
+    height: 400px;
+    /* height: 100%; */
+    width: 100%;
+  }

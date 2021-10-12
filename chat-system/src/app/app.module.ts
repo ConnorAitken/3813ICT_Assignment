@@ -3,6 +3,7 @@ import { BrowserModule } from '@angular/platform-browser';
 import { FormsModule } from '@angular/forms';
 import { HttpClientModule } from '@angular/common/http';
 import { CommonModule } from '@angular/common';
+import { ScrollingModule } from '@angular/cdk/scrolling';
 import { SocketService } from './services/socket.service';
 
 import { AppRoutingModule } from './app-routing.module';
@@ -28,6 +29,7 @@ import { GroupAssisComponent } from './group-assis/group-assis.component';
     BrowserModule,
     FormsModule, 
     HttpClientModule,
+    ScrollingModule,
     AppRoutingModule
   ],
   providers: [SocketService],

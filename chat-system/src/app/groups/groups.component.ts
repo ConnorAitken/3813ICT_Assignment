@@ -3,6 +3,7 @@ import { Router } from '@angular/router';
 import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { DatePipe } from '@angular/common';
 import { formatDate } from '@angular/common';
+import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { SocketService } from '../services/socket.service';
 import { ImgUploadService } from '../services/img-upload.service';
 const httpOptions = {
@@ -38,6 +39,8 @@ export class GroupsComponent implements OnInit {
   userName;
 
   messageData = {
+    // groupName:"",
+    // roomName:"",
     userName:"",
     message:"",
     dateTime:""
@@ -49,7 +52,12 @@ export class GroupsComponent implements OnInit {
   imagePath:string="";
   selectedFile:any = null;
 
-  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService ) {
+  left: boolean = false;
+  lastRoom: string = "";
+  lastGroup: string = "";
+
+
+  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService, private virtualScrollViewport:CdkVirtualScrollViewport ) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -75,20 +83,30 @@ export class GroupsComponent implements OnInit {
   private initIoConnection() {
     this.socketService.initSocket();
     this.ioConnection = this.socketService.getMessage().subscribe((message:any) => {
-        // add new message to the messages array.
-        this.messages.push(message);
-        // console.log(this.selectedRoom);
-        this.httpClient.post(BACKEND_URl + '/save_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}, httpOptions).subscribe((data:any) => {});
-      });
+      this.processMsg(message);
+    });
   }
 
-  public chat() {
+  processMsg(message:any) {
+    console.log(message);
+    console.log(this.selectedRoom.name);
+    if (message.groupName == this.selectedGroup.name && message.roomName == this.selectedRoom.name) {
+        // add new message to the messages array.
+        this.messages.push(message.messageData);
+        // console.log(this.selectedRoom);
+        this.httpClient.post(BACKEND_URl + '/save_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}, httpOptions).subscribe((data:any) => {});
+      }
+  }
+
+  chat() {
     if(this.messagecontent && !this.toggleChat) {
       // check there is a message to send
+      // this.messageData.groupName = this.selectedGroup.name;
+      // this.messageData.roomName = this.selectedRoom.name;
       this.messageData.userName = this.userName;
       this.messageData.message = this.messagecontent;
       this.messageData.dateTime = formatDate(Date.now(),'h:mm a', 'en-US');
-      this.socketService.send(this.messageData);
+      this.socketService.send({"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messageData":this.messageData});
       this.messagecontent = "";
     }
     else {
@@ -150,6 +168,10 @@ export class GroupsComponent implements OnInit {
     this.toggleChat = true;
     this.selectedGroup = group;
     this.Header = this.selectedGroup.name;
+    if (this.left) {
+      this.systemMsg("left");
+      this.left = false;
+    }
     this.httpClient.post(BACKEND_URl + '/group_info', this.selectedGroup, httpOptions).subscribe((data:any) => {
       this.rooms = data;
       this.httpClient.post(BACKEND_URl + '/load_group_users', this.selectedGroup, httpOptions).subscribe((data:any) => {
@@ -173,6 +195,10 @@ export class GroupsComponent implements OnInit {
     this.toggleChat = false;
     this.selectedRoom = room;
     this.Header = this.selectedGroup.name +" - "+ this.selectedRoom.name;
+    if (this.left) {
+      this.systemMsg("left");
+    }
+    else this.left = true;
     this.httpClient.post(BACKEND_URl + '/load_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}, httpOptions).subscribe((data:any) => {
       if (data.length > 0) {
         this.messages = data[0].messages;
@@ -180,9 +206,21 @@ export class GroupsComponent implements OnInit {
       else {
         this.messages = [];
       }
+      this.lastGroup = this.selectedGroup.name;
+      this.lastRoom = this.selectedRoom.name;
+      this.systemMsg("joined");
+      // this.scrollToBottom();
       // this.messages = data[0].messages;
       // console.log(data.length);
     });
+  }
+
+  systemMsg(status: string) {
+    this.messageData.userName = "*System*";
+    this.messageData.message = "*" + this.userName + " has " + status + " the chat.*";
+    this.messageData.dateTime = formatDate(Date.now(),'h:mm a', 'en-US');
+    this.socketService.send({"groupName":this.lastGroup, "roomName":this.lastRoom, "messageData":this.messageData});
+    this.messagecontent = "";
   }
 
   roleOptions() {
@@ -190,4 +228,12 @@ export class GroupsComponent implements OnInit {
     else if (this.userRole == "GroupAdmin") this.router.navigateByUrl('/group-admin');
     else this.router.navigate(['/group-assis', this.selectedGroup.id, this.selectedGroup.name]);
   }
+
+  // scrollToBottom() {
+  //   this.virtualScrollViewport.scrollToIndex(this.messages.length - 1);
+  //   // setTimeout(() => {
+  //   //   const items = document.getElementsByClassName("app-chat-msg");
+  //   //   items[items.length - 1].scrollIntoView();
+  //   // }, 10);
+  // }
 }

@@ -72,13 +72,15 @@
                         <button class="roleBTN" [ngClass]="toggleRole ? 'hide' : 'show'" type="submit" (click)="roleOptions()"><strong>{{userRole}} Options</strong></button>
                     </form>
                 </div>
-                <span *ngFor="let message of messages" class="hide" [ngClass]="toggleChat ? 'hide' : 'show'">
-                    <div class="group-rom">
-                        <div class="first-part odd">{{message.userName}}</div>
-                        <div class="second-part">{{message.message}}</div>
-                        <div class="third-part">{{message.dateTime}}</div>
-                    </div>
-                </span>
+                <cdk-virtual-scroll-viewport [itemSize]="18 * 3" class="example-viewport">
+                    <span *ngFor="let message of messages" class="hide" [ngClass]="toggleChat ? 'hide' : 'show'">
+                        <div class="group-rom">
+                            <div class="first-part odd">{{message.userName}}</div>
+                            <div class="second-part">{{message.message}}</div>
+                            <div class="third-part">{{message.dateTime}}</div>
+                        </div>
+                    </span>
+                </cdk-virtual-scroll-viewport>
                 <img src="images/{{imagePath}}">
                 <!--<div class="group-rom">
                     <div class="first-part odd">Jonathan Smith</div>
