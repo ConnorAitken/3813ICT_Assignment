@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
 import { Router } from '@angular/router'; 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type':'application/json' })
-};
-
-const BACKEND_URl = 'http://localhost:3000';
+import { DatabaseService } from "../services/database.service";
 
 @Component({
   selector: 'app-super-admin',
@@ -29,7 +23,7 @@ export class SuperAdminComponent implements OnInit {
   upUserName = "";
   selectedUpgradedRole = "Role";
 
-  constructor(private router:Router, private httpClient:HttpClient) {
+  constructor(private router:Router, private database:DatabaseService) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -55,7 +49,7 @@ export class SuperAdminComponent implements OnInit {
       alert("Please Select A Role!!");
     }
     else {
-      this.httpClient.post(BACKEND_URl + '/create_user', this.data, httpOptions).subscribe((data:any) => {
+      this.database.create_user(this.data).subscribe((data:any) => {
         if (data.success) {
           alert("Added!!");
           this.newUserName = "";
@@ -78,7 +72,7 @@ export class SuperAdminComponent implements OnInit {
       alert("Please Select A Role!!");
     }
     else {
-      this.httpClient.post(BACKEND_URl + '/upgrade_user', this.data, httpOptions).subscribe((data:any) => {
+      this.database.upgrade_user(this.data).subscribe((data:any) => {
         if (data.success) {
           alert("Upgraded!!");
           this.upUserName = "";

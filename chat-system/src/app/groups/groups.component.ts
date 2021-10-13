@@ -1,15 +1,10 @@
 import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
 import { formatDate, ViewportScroller  } from '@angular/common';
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { SocketService } from '../services/socket.service';
 import { ImgUploadService } from '../services/img-upload.service';
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type':'application/json' })
-};
-
-const BACKEND_URl = 'http://localhost:3000';
+import { DatabaseService } from "../services/database.service";
 
 @Component({
   selector: 'app-groups',
@@ -54,7 +49,7 @@ export class GroupsComponent implements OnInit {
   lastGroup: string = "";
 
 
-  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService) {
+  constructor( private router:Router, private database:DatabaseService, private socketService:SocketService, private imgUploadService:ImgUploadService) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -88,7 +83,7 @@ export class GroupsComponent implements OnInit {
     if (message.groupName == this.selectedGroup.name && message.roomName == this.selectedRoom.name) {
         // add new message to the messages array.
         this.messages.unshift(message.messageData);
-        this.httpClient.post(BACKEND_URl + '/save_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}, httpOptions).subscribe((data:any) => {});
+        this.database.save_chat({"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}).subscribe((data:any) => {});
       }
   }
 
@@ -121,18 +116,18 @@ export class GroupsComponent implements OnInit {
   }
 
   loadSuper() {
-    this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
+    this.database.get_groups().subscribe((data:any) => {
       this.groups = data;
       this.onSelectGroup(data[0]);
     });
   }
 
   loadEveryoneElse() {
-    this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((groupData:any) => {
+    this.database.get_groups().subscribe((groupData:any) => {
       let temp: any[] = [];
     var found = false;
     for (let i = 0; i < groupData.length; i++) {
-      this.httpClient.post(BACKEND_URl + '/load_group_users', groupData[i], httpOptions).subscribe((userData:any) => {
+      this.database.load_group_users(groupData[i]).subscribe((userData:any) => {
         let x = userData.findIndex((user: { userID: any | null; }) =>
           (user.userID == this.userID));
         if (x != -1) {
@@ -164,9 +159,9 @@ export class GroupsComponent implements OnInit {
       this.systemMsg("left");
       this.left = false;
     }
-    this.httpClient.post(BACKEND_URl + '/group_info', this.selectedGroup, httpOptions).subscribe((data:any) => {
+    this.database.get_group_info(this.selectedGroup).subscribe((data:any) => {
       this.rooms = data;
-      this.httpClient.post(BACKEND_URl + '/load_group_users', this.selectedGroup, httpOptions).subscribe((data:any) => {
+      this.database.load_group_users(this.selectedGroup).subscribe((data:any) => {
         this.users = data; 
         if (this.userRole == "stdUser" || this.userRole == "GroupAssistant") {
           let i = this.users.findIndex((user:any) =>(user.userID == this.userID));
@@ -193,7 +188,7 @@ export class GroupsComponent implements OnInit {
         this.systemMsg("left");
       }
       else this.left = true;
-      this.httpClient.post(BACKEND_URl + '/load_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}, httpOptions).subscribe((data:any) => {
+      this.database.load_chat({"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}).subscribe((data:any) => {
         if (data.length > 0) {
           this.messages = data[0].messages;
         }

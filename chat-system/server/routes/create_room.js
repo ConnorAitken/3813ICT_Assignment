@@ -1,7 +1,7 @@
 module.exports = function(db,app){
     // Route to manage adding a room
     app.post('/create_room',function(req,res) {
-        var Room = require('../Room.js');
+        var Room = require('../models/Room.js');
         if (!req.body) {
             return res.sendStatus(400);
         }

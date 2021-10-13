@@ -1,7 +1,7 @@
 module.exports = function(db,app){
     // Route to manage adding a user
     app.post('/create_user',function(req,res) {
-        var User = require('../User.js');
+        var User = require('../models/User.js');
         if (!req.body) {
             return res.sendStatus(400);
         }

@@ -1,11 +1,6 @@
 import { Component, OnInit } from "@angular/core";
 import { Router } from '@angular/router'; 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-    headers: new HttpHeaders({ 'Content-Type':'application/json' })
-};
-
-const BACKEND_URl = 'http://localhost:3000';
+import { DatabaseService } from "../services/database.service";
 
 @Component({
     selector: 'app-login',
@@ -14,14 +9,14 @@ const BACKEND_URl = 'http://localhost:3000';
 })
 
 export class LoginComponent implements OnInit {
-    customer = {uname: '', password: '', valid: false};
+    user = {uname: '', password: '', valid: false};
     toggleClass: boolean = true;
-    constructor( private router:Router, private httpClient:HttpClient ) { }
+    constructor( private router:Router, private database:DatabaseService ) { }
 
     ngOnInit(): void {
     }
     public loginfunc() {
-        this.httpClient.post(BACKEND_URl + '/api/auth', this.customer, httpOptions).subscribe((data:any) => {
+        this.database.login(this.user).subscribe((data:any) => {
             if (data.valid) {
                 sessionStorage.setItem('id', data.id);
                 sessionStorage.setItem('uname', data.uname);
@@ -32,9 +27,9 @@ export class LoginComponent implements OnInit {
             }
             else {
                 this.toggleClass = false;
-                this.customer.uname = "";
-                this.customer.password = "";
-                this.customer.valid = false;
+                this.user.uname = "";
+                this.user.password = "";
+                this.user.valid = false;
             }
         });
     }

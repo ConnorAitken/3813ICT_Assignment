@@ -1,7 +1,7 @@
 module.exports = function(db,app){
     // Route to manage adding a group
     app.post('/create_group',function(req,res) {
-        var Group = require('../Group.js');
+        var Group = require('../models/Group.js');
         if (!req.body) {
             return res.sendStatus(400);
         }

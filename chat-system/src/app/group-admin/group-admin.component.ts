@@ -1,12 +1,6 @@
 import { Component, OnInit } from '@angular/core';
-import { ActivatedRoute } from "@angular/router";
 import { Router } from '@angular/router'; 
-import { HttpClient, HttpHeaders } from "@angular/common/http";
-const httpOptions = {
-  headers: new HttpHeaders({ 'Content-Type':'application/json' })
-};
-
-const BACKEND_URl = 'http://localhost:3000';
+import { DatabaseService } from "../services/database.service";
 
 @Component({
   selector: 'app-group-admin',
@@ -20,10 +14,9 @@ export class GroupAdminComponent implements OnInit {
   }
 
   groups: any;
-
   selectedGroup: any;
 
-  constructor(private router:Router, private httpClient:HttpClient) {
+  constructor(private router:Router, private database:DatabaseService) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -31,7 +24,7 @@ export class GroupAdminComponent implements OnInit {
    }
 
   ngOnInit(): void {
-    this.httpClient.post(BACKEND_URl + '/groups', "", httpOptions).subscribe((data:any) => {
+    this.database.get_groups().subscribe((data:any) => {
       this.groups = data;
     });
   }
@@ -41,7 +34,7 @@ export class GroupAdminComponent implements OnInit {
   }
 
   create_group() {
-    this.httpClient.post(BACKEND_URl + '/create_group', this.data, httpOptions).subscribe((data:any) => {
+    this.database.create_group(this.data).subscribe((data:any) => {
       if (data.saved) {
         window.location.reload();
         alert("Group Created");
@@ -61,7 +54,7 @@ export class GroupAdminComponent implements OnInit {
     }
     else {
       this.data._id = this.groups[i]._id;
-      this.httpClient.post(BACKEND_URl + '/remove_group', this.data, httpOptions).subscribe((data:any) => {
+      this.database.remove_group(this.data).subscribe((data:any) => {
         if (data.removed) {
           window.location.reload();
           alert("Removed!!");
