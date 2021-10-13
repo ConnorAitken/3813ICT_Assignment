@@ -37,6 +37,8 @@ mongo(app);
 const server = require('./listen.js');
 server.listen(http,PORT);
 
+module.exports = app;
+
 // var server = http.listen(PORT, function() {
 //     var d = new Date();
 //     var n = d.getHours();

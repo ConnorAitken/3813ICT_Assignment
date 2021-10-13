@@ -1,6 +1,6 @@
 module.exports = function(db,app,ObjectID){
     // Route to delete a group
-    app.post('/remove_room',function(req,res) {
+    app.post('/api/remove_room',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);
         }
@@ -21,51 +21,23 @@ module.exports = function(db,app,ObjectID){
                         res.send({"removed": false});
                         throw err;
                     }  
-                    // Decrement the group.id's above the removed id.
+                    // Decrement the room.id's above the removed id.
                     collection.updateMany({groupID:req.body.groupID, roomID:{$gt:roomID}}, {$inc: {roomID: -1}},(err,docs)=>{
                         if (err) {
                             res.send({"removed": false});
                             throw err;
                         }  
-                        res.send({"removed": true});
+                        var collection = db.collection(req.body.groupName);
+                        collection.deleteMany({"roomID":roomID},(err,docs)=>{
+                            if (err) {
+                                res.send({"removed": false});
+                                throw err;
+                            }
+                            res.send({"removed": true});
+                        });
                     });
                 });
             }
         });
     });
 }
-
-// var fs = require('fs');
-
-// module.exports = function(req,res){
-//     var Room = require('../Room.js');
-//     if (!req.body) {
-//         return res.sendStatus(400);
-//     }
-//     fs.readFile('./data/rooms.json', 'utf8', function(err, data) {
-//         if (err) {
-//             res.send({"removed": false});
-//             throw err;
-//         }  
-//         let roomsArray = JSON.parse(data);
-        // let i = roomsArray.findIndex(room =>
-        //     (room.groupID == req.body.groupID && room.name == req.body.roomName));
-        // if (i == -1) {
-        //     console.log("Failed to find room");
-        //     res.send({"removed": false});
-        // }
-        // else {
-        //     var roomID = roomsArray[i].roomID;
-        //     roomsArray.splice(i, 1);
-        // }
-//         fs.writeFile('./data/rooms.json', JSON.stringify(roomsArray), 'utf-8', function(err) {
-//             if (err) {
-//                 res.send({"removed": false});
-//                 throw err;
-//             }  
-//         });
-//         var file = './data/assignments/'+req.body.groupID+'-'+roomID+'.json';
-//         fs.unlinkSync(file);
-//         res.send({"removed": true});
-//     });
-// }

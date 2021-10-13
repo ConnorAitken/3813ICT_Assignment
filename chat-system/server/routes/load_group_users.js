@@ -1,6 +1,6 @@
 module.exports = function(db,app){
     // Route to get list of all groups from the database.
-    app.post('/load_group_users',function(req,res) {
+    app.post('/api/load_group_users',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);
         }
@@ -25,18 +25,3 @@ module.exports = function(db,app){
         });
     });
 }
-
-// var fs = require('fs');
-
-// module.exports = function(req,res){
-//     if (!req.body) {
-//         return res.sendStatus(400);
-//     }
-//     let group = req.body;
-//     var file = './data/groups/'+group.name+'.json';
-//     fs.readFile(file, 'utf8', function(err, data) {
-//         if (err) throw err;
-//         let groupUsrs = JSON.parse(data);
-//         res.send(groupUsrs);
-//     });
-// }

@@ -1,6 +1,6 @@
 module.exports = function(db,app){
     // Route to manage adding a user
-    app.post('/save_chat',function(req,res) {
+    app.post('/api/save_chat',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);
         }

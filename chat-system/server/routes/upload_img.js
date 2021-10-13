@@ -1,6 +1,6 @@
 module.exports = function(app,formidable){
     // Route to manage upgrading a user's role
-    app.post('/upload_img',function(req,res) {
+    app.post('/api/upload_img',function(req,res) {
         var form = new formidable.IncomingForm({ uploadDir: './userimages' });
         form.keepExtensions = true;
 

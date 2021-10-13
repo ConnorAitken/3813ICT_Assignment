@@ -68,6 +68,7 @@ export class GroupsManagementComponent implements OnInit {
 
   remove_channel() {
     this.data.groupID = this.currentGroup.id;
+    this.data.groupName = this.currentGroup.name;
     this.data.roomName = this.selectedRooms.name;
     this.database.remove_room(this.data).subscribe((data:any) => {
       if (data.removed) {

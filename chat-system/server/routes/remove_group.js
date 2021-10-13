@@ -1,6 +1,6 @@
 module.exports = function(db,app,ObjectID){
     // Route to delete a group
-    app.post('/remove_group',function(req,res) {
+    app.post('/api/remove_group',function(req,res) {
         if (!req.body._id) {
             return res.sendStatus(400);
         }
@@ -14,6 +14,7 @@ module.exports = function(db,app,ObjectID){
                 throw err;
             }  
             var groupID = data[0].id;
+            var groupName = data[0].name;
             // Delete a single item based on its unique ID.
             collection.deleteOne({_id:objectid},(err,docs)=>{
                 if (err) {
@@ -26,44 +27,31 @@ module.exports = function(db,app,ObjectID){
                         res.send({"removed": false});
                         throw err;
                     }  
-                    res.send({"removed": true});
+                    var collection = db.collection('rooms');
+                    collection.deleteMany({"groupID":groupID},(err,docs)=>{
+                        if (err) {
+                            res.send({"removed": false});
+                            throw err;
+                        }
+                        db.listCollections({name: groupName})
+                            .next(function(err, collinfo) {
+                                if (collinfo) {
+                                    var collection = db.collection(groupName);
+                                    collection.drop(function(err, delOK) {
+                                        if (err) {
+                                            res.send({"removed": false});
+                                            throw err; 
+                                        }
+                                        if (delOK) {
+                                            console.log("Collection deleted"); 
+                                            res.send({"removed": true});
+                                        }
+                                    });
+                                }
+                            });
+                    });
                 });
             });
         }); 
     });
 }
-
-// var fs = require('fs');
-
-// module.exports = function(req,res){
-//     var Group = require('../Group.js');
-//     if (!req.body) {
-//         return res.sendStatus(400);
-//     }
-//     fs.readFile('./data/groups.json', 'utf8', function(err, data) {
-//         if (err) {
-//             res.send({"removed": false});
-//             throw err;
-//         }  
-//         let groupsArray = JSON.parse(data);
-//         let i = groupsArray.findIndex(group =>
-//             (group.name == req.body.groupName));
-//         if (i == -1) {
-//             console.log("Failed to find group");
-//             res.send({"removed": false});
-//         }
-//         else {
-//             groupsArray.splice(i, 1);
-//         }
-//         for (let i = 0; i < groupsArray.length; i++) {
-//             groupsArray[i].id = i;
-//         }
-//         fs.writeFile('./data/groups.json', JSON.stringify(groupsArray), 'utf-8', function(err) {
-//             if (err) {
-//                 res.send({"removed": false});
-//                 throw err;
-//             }
-//             res.send({"removed": true});
-//         });
-//     });
-// }
