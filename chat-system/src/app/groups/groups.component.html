@@ -52,12 +52,13 @@
                     </div>
                 </ul>
                 <footer>
-                    <a class="chat-avatar" href="#javascript:;">
-                        <img alt="" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                    <a class="chat-avatar">
+                        <img *ngIf="userName == 'super'" alt="" src="https://bootdey.com/img/Content/avatar/avatar7.png">
+                        <img *ngIf="userName != 'super'" alt="" src="https://bootdey.com/img/Content/avatar/avatar2.png">
                     </a>
                     
                     <div class="user-status">
-                        <i class="fa fa-circle text-success"></i>
+                        <i class="fa fa-circle text-success" style="color: green"></i>
                         {{userName}}
                     </div>
                 </footer>
@@ -68,57 +69,39 @@
             <aside class="tengah-side">
                 <div class="chat-room-head"> 
                     <h3>{{Header}}</h3>
-                    <form class="pull-right position">
+                    <form class="pull-right position" style="padding-right: 10px;">
                         <button class="roleBTN" [ngClass]="toggleRole ? 'hide' : 'show'" type="submit" (click)="roleOptions()"><strong>{{userRole}} Options</strong></button>
                     </form>
                 </div>
-                <cdk-virtual-scroll-viewport [itemSize]="18 * 3" class="example-viewport">
+                <h1 style="text-align: center" [ngClass]="!toggleChat ? 'hide' : 'show'">Please Select a Room.</h1>
+                <cdk-virtual-scroll-viewport [itemSize]="20" class="example-viewport">
                     <span *ngFor="let message of messages" class="hide" [ngClass]="toggleChat ? 'hide' : 'show'">
-                        <div class="group-rom">
-                            <div class="first-part odd">{{message.userName}}</div>
+                        <div  class="group-rom">
+                            <div class="first-part odd">
+                                <a class="chat-avatar">
+                                    <img *ngIf="message.userName == 'super'" alt="" src="https://bootdey.com/img/Content/avatar/avatar7.png">
+                                    <img *ngIf="message.userName != 'super' && message.userName != '*System*'" alt="" src="https://bootdey.com/img/Content/avatar/avatar2.png">
+                                    <img *ngIf="message.userName == '*System*'" alt="" src="https://bootdey.com/img/Content/avatar/avatar1.png">
+                                </a>
+                                {{message.userName}}
+                            </div>
                             <div class="second-part">{{message.message}}</div>
                             <div class="third-part">{{message.dateTime}}</div>
                         </div>
                     </span>
                 </cdk-virtual-scroll-viewport>
-                <img src="images/{{imagePath}}">
-                <!--<div class="group-rom">
-                    <div class="first-part odd">Jonathan Smith</div>
-                    <div class="second-part">Hello Cendy are you there?</div>
-                    <div class="third-part">12:30</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part">Cendy Andrianto</div>
-                    <div class="second-part">Yoman Smith. Please proceed</div>
-                    <div class="third-part">12:31</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part odd">Jonathan Smith</div>
-                    <div class="second-part">I want to share a file using chatroom</div>
-                    <div class="third-part">12:32</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part">Cendy Andrianto</div>
-                    <div class="second-part">oh sure. please send</div>
-                    <div class="third-part">12:32</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part odd">Jonathan Smith</div>
-                    <div class="second-part"><a href="##">search_scb_dialog.jpg</a> <span class="text-muted">46.8KB</span> <p>
-                        <img src="https://bootdey.com/img/Content/avatar/avatar7.png" alt="" class="img-responsive"></p></div>
-                    <div class="third-part">12:32</div>
-                </div>
-                <div class="group-rom">
-                    <div class="first-part">Cendy Andrianto</div>
-                    <div class="second-part">Fantastic job, love it :)</div>
-                    <div class="third-part">12:32</div>
-                </div>-->
+                <!-- <img src="images/{{imagePath}}"> -->
+                <br/>
                 <footer class="group-rom">
                     <div class="chat-txt">
                         <input type="text" style="margin-right: 2em;" [(ngModel)]="messagecontent" name="messagecontent" id="messagecontent" class="form-control"/>
-                        <input type="file" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id="uploadfile"/>
-                        <br/>
                         <button type="button" class="btn btn-danger" (click)="chat()">Send</button>
+                    </div>
+                    <br/>
+                    <br/>
+                    <div class="chat-txt">
+                        <input type="file" style="width: 205px;" class="form-control" (change)="onFileSelected($event)" name="uploadfile" id="uploadfile"/>
+                        <button type="button" class="btn btn-danger" (click)="onUpload()">Upload</button>
                     </div>
                 </footer>
             </aside>

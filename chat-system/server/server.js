@@ -17,7 +17,7 @@ app.use(bodyParser.json());
 
 app.use(express.static(__dirname + '/../dist/my-app'));
 // app.use(express.static(__dirname + '/../dist/imageupload/'));
-app.use('/images',express.static(path.join(__dirname, './userimages')));
+app.use('/images', express.static(path.join('userimages')));
 console.log(__dirname);
 
 var http = require('http').Server(app);

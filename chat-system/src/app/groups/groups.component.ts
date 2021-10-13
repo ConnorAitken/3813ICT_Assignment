@@ -1,8 +1,7 @@
-import { Component, OnInit } from '@angular/core';
+import { Component, OnInit, ViewChild } from '@angular/core';
 import { Router } from '@angular/router'; 
 import { HttpClient, HttpHeaders } from "@angular/common/http";
-import { DatePipe } from '@angular/common';
-import { formatDate } from '@angular/common';
+import { formatDate, ViewportScroller  } from '@angular/common';
 import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
 import { SocketService } from '../services/socket.service';
 import { ImgUploadService } from '../services/img-upload.service';
@@ -39,8 +38,6 @@ export class GroupsComponent implements OnInit {
   userName;
 
   messageData = {
-    // groupName:"",
-    // roomName:"",
     userName:"",
     message:"",
     dateTime:""
@@ -57,7 +54,7 @@ export class GroupsComponent implements OnInit {
   lastGroup: string = "";
 
 
-  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService, private virtualScrollViewport:CdkVirtualScrollViewport ) {
+  constructor( private router:Router, private httpClient:HttpClient, private socketService:SocketService, private imgUploadService:ImgUploadService) {
     if (sessionStorage.getItem('id') == null) {
       alert("Not Logged In!!!");
       this.router.navigateByUrl('/');
@@ -88,12 +85,9 @@ export class GroupsComponent implements OnInit {
   }
 
   processMsg(message:any) {
-    console.log(message);
-    console.log(this.selectedRoom.name);
     if (message.groupName == this.selectedGroup.name && message.roomName == this.selectedRoom.name) {
         // add new message to the messages array.
-        this.messages.push(message.messageData);
-        // console.log(this.selectedRoom);
+        this.messages.unshift(message.messageData);
         this.httpClient.post(BACKEND_URl + '/save_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}, httpOptions).subscribe((data:any) => {});
       }
   }
@@ -101,8 +95,6 @@ export class GroupsComponent implements OnInit {
   chat() {
     if(this.messagecontent && !this.toggleChat) {
       // check there is a message to send
-      // this.messageData.groupName = this.selectedGroup.name;
-      // this.messageData.roomName = this.selectedRoom.name;
       this.messageData.userName = this.userName;
       this.messageData.message = this.messagecontent;
       this.messageData.dateTime = formatDate(Date.now(),'h:mm a', 'en-US');
@@ -191,28 +183,28 @@ export class GroupsComponent implements OnInit {
     });
   }
 
-  onSelectRoom(room: any): void{
-    this.toggleChat = false;
-    this.selectedRoom = room;
-    this.Header = this.selectedGroup.name +" - "+ this.selectedRoom.name;
-    if (this.left) {
-      this.systemMsg("left");
+  onSelectRoom(room: any): void {
+    let i = this.users.findIndex((user:any)=>(user.userID == this.userID && user.roomID == room.roomID));
+    if (i != -1) {
+      this.toggleChat = false;
+      this.selectedRoom = room;
+      this.Header = this.selectedGroup.name +" - "+ this.selectedRoom.name;
+      if (this.left) {
+        this.systemMsg("left");
+      }
+      else this.left = true;
+      this.httpClient.post(BACKEND_URl + '/load_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}, httpOptions).subscribe((data:any) => {
+        if (data.length > 0) {
+          this.messages = data[0].messages;
+        }
+        else {
+          this.messages = [];
+        }
+        this.lastGroup = this.selectedGroup.name;
+        this.lastRoom = this.selectedRoom.name;
+        this.systemMsg("joined");
+      });
     }
-    else this.left = true;
-    this.httpClient.post(BACKEND_URl + '/load_chat', {"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name}, httpOptions).subscribe((data:any) => {
-      if (data.length > 0) {
-        this.messages = data[0].messages;
-      }
-      else {
-        this.messages = [];
-      }
-      this.lastGroup = this.selectedGroup.name;
-      this.lastRoom = this.selectedRoom.name;
-      this.systemMsg("joined");
-      // this.scrollToBottom();
-      // this.messages = data[0].messages;
-      // console.log(data.length);
-    });
   }
 
   systemMsg(status: string) {
@@ -228,12 +220,4 @@ export class GroupsComponent implements OnInit {
     else if (this.userRole == "GroupAdmin") this.router.navigateByUrl('/group-admin');
     else this.router.navigate(['/group-assis', this.selectedGroup.id, this.selectedGroup.name]);
   }
-
-  // scrollToBottom() {
-  //   this.virtualScrollViewport.scrollToIndex(this.messages.length - 1);
-  //   // setTimeout(() => {
-  //   //   const items = document.getElementsByClassName("app-chat-msg");
-  //   //   items[items.length - 1].scrollIntoView();
-  //   // }, 10);
-  // }
 }
