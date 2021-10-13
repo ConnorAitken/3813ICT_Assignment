@@ -1,7 +1,6 @@
-import { Component, OnInit, ViewChild } from '@angular/core';
+import { Component, OnInit } from '@angular/core';
 import { Router } from '@angular/router'; 
-import { formatDate, ViewportScroller  } from '@angular/common';
-import { CdkVirtualScrollViewport } from "@angular/cdk/scrolling";
+import { formatDate } from '@angular/common';
 import { SocketService } from '../services/socket.service';
 import { ImgUploadService } from '../services/img-upload.service';
 import { DatabaseService } from "../services/database.service";
@@ -81,10 +80,12 @@ export class GroupsComponent implements OnInit {
 
   processMsg(message:any) {
     if (message.groupName == this.selectedGroup.name && message.roomName == this.selectedRoom.name) {
-        // add new message to the messages array.
-        this.messages.unshift(message.messageData);
-        this.database.save_chat({"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}).subscribe((data:any) => {});
-      }
+      // add new message to the messages array.
+      this.messages.unshift(message.messageData);
+      this.database.save_chat({"groupName":this.selectedGroup.name, "roomName":this.selectedRoom.name, "messages":this.messages}).subscribe((data:any) => {
+        if (!data.success) alert("Error Saving Chat History!!");
+      });
+    }
   }
 
   chat() {

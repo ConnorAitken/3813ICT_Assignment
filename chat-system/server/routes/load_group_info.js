@@ -1,5 +1,5 @@
 module.exports = function(db,app){
-    // Route to get list of all groups from the database.
+    // Route to get a list of all rooms in a specified group.
     app.post('/api/group_info',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);

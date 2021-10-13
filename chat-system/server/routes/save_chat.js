@@ -9,10 +9,14 @@ module.exports = function(db,app){
         const collection = db.collection(coll);
         collection.deleteMany({},(err,docs)=>{
             if (err) {
+                res.send({"success": false});
                 throw err;
             }  
             collection.insertOne({"messages":messages},(err,dbres)=>{
-                if (err) throw err;
+                if (err) {
+                    res.send({"success": false});
+                    throw err;
+                }  
                 res.send({"success": true});
             });;
         });

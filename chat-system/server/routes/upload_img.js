@@ -5,9 +5,6 @@ module.exports = function(app,formidable){
         form.keepExtensions = true;
 
         form.on('error', function(err) {
-            // if (err) {
-            //     throw err;
-            // }  
             res.send({
                 result:"failed",
                 data:{},

@@ -177,7 +177,7 @@ describe('Server test', function() {
     // Remove Group from Groups Tests
     describe('Test 8.1 /api/remove_group', () => {
         it('it should remove group from groups', (done) => {
-            chai.request(app).post('/api/remove_group').type('form').send({'_id':"6166c8a54f7863d5899ae32e"})
+            chai.request(app).post('/api/remove_group').type('form').send({'_id':"6166f66b67bc7e9c6745fbea"})
                 .end((err, res) => {
                     res.body.removed.should.be.true;
                     done();

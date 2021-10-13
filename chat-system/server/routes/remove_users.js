@@ -1,5 +1,5 @@
 module.exports = function(db,app){
-    // Route to remove a user from a group room
+    // Route to remove a user from a group room.
     app.post('/api/remove_user',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);

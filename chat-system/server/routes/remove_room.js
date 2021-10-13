@@ -1,5 +1,5 @@
 module.exports = function(db,app,ObjectID){
-    // Route to delete a group
+    // Route to delete a room from a group.
     app.post('/api/remove_room',function(req,res) {
         if (!req.body) {
             return res.sendStatus(400);
